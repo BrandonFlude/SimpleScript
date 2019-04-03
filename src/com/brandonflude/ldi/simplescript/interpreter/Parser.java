@@ -75,13 +75,17 @@ public class Parser implements SimpleScriptVisitor {
 		{	
 			// This will need to shift to the new function
 			String useFunction = getTokenOfChild(node, 2);
-			throw new ExceptionSemantic("Attempting to use new function: " + useFunction + ".");
-			/*
-			if (scope.findFunctionInCurrentLevel(useFunction) != null)
+			//throw new ExceptionSemantic("Attempting to use new function: " + useFunction + ".");
+			
+			if (scope.findFunctionInCurrentLevel(useFunction) == null)
+			{
+				throw new ExceptionSemantic("Alternate function: " + useFunction + " wasn't found. Is it declared BEFORE the OLD function?");
+			}
+			else
 			{
 				throw new ExceptionSemantic("Attempting to use new function: " + useFunction + ".");
 			}
-			*/
+		
 			
 			/*
 			// BUT FOR NOW MOVE EVERYTHING UP ONE CHILD

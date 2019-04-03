@@ -120,38 +120,6 @@ public class Parser implements SimpleScriptVisitor {
 		return doChildren(node, data);
 	}
 	
-	// Class definition
-	/*
-	public Object visit(ASTClassDef node, Object data) {
-		// Already defined?
-		if (node.optimised != null)
-			return data;
-		
-		// Child 0 - identifier (class name)
-		String classname = getTokenOfChild(node, 0);
-		if (scope.findClassInCurrentLevel(classname) != null)
-			throw new ExceptionSemantic("Class " + classname + " already exists.");
-		ClassDefinition currentClassDefinition = new ClassDefinition(classname, scope.getLevel() + 1);
-		
-		Child 1 - class definition parameter list
-		doChild(node, 1, currentClassDefinition);
-		// Add to available classes
-		scope.addClass(currentClassDefinition);
-		// Child 2 - class body
-		currentClassDefinition.setClassBody(getChild(node, 1));
-		
-		// Preserve this definition for future reference, and so we don't define
-		// it every time this node is processed.
-		node.optimised = currentClassDefinition;
-		return data;
-	}
-	
-	// Class body
-	public Object visit(ASTClassBody node, Object data) {
-		return doChildren(node, data);
-	}
-	*/
-	
 	// Function return expression
 	public Object visit(ASTReturnExpression node, Object data) {
 		return doChildren(node, data);
@@ -178,29 +146,6 @@ public class Parser implements SimpleScriptVisitor {
 		return data;
 	}
 	
-	// Class call
-	/*
-	public Object visit(ASTClassCall node, Object data) {
-		ClassDefinition classdef;
-		if (node.optimised == null) { 
-			// Child 0 - identifier (fn name)
-			String classname = getTokenOfChild(node, 0);
-			classdef = scope.findClass(classname);
-			if (classdef == null)
-				throw new ExceptionSemantic("Class " + classname + " is undefined.");
-			// Save it for next time
-			node.optimised = classdef;
-		} else
-			classdef = (ClassDefinition)node.optimised;
-		ClassInvocation newInvocation = new ClassInvocation(classdef);
-		// Child 1 - arglist
-		doChild(node, 1, newInvocation);
-		// Execute
-		scope.execute(newInvocation, this);
-		return data;
-	}
-	*/
-	
 	// Function invocation in an expression
 	public Object visit(ASTFnInvoke node, Object data) {
 		FunctionDefinition fndef;
@@ -222,28 +167,6 @@ public class Parser implements SimpleScriptVisitor {
 		// Execute
 		return scope.execute(newInvocation, this);
 	}
-	
-	// Class invocation in an expression
-	/*
-	public Object visit(ASTClassInvoke node, Object data) {
-		ClassDefinition classdef;
-		if (node.optimised == null) { 
-			// Child 0 - identifier (fn name)
-			String classname = getTokenOfChild(node, 0);
-			classdef = scope.findClass(classname);
-			if (classdef == null)
-				throw new ExceptionSemantic("Class " + classname + " is undefined.");
-			// Save it for next time
-			node.optimised = classdef;
-		} else
-			classdef = (ClassDefinition)node.optimised;
-			ClassInvocation newInvocation = new ClassInvocation(classdef);
-			// Child 1 - arglist
-			doChild(node, 1, newInvocation);
-			// Execute
-			return scope.execute(newInvocation, this);
-	}
-	*/
 	
 	// Function invocation argument list.
 	public Object visit(ASTArgList node, Object data) {
@@ -333,6 +256,15 @@ public class Parser implements SimpleScriptVisitor {
 		if (node.optimised == null) {
 			String name = getTokenOfChild(node, 0);
 			reference = scope.findReference(name);
+			
+			
+			// If has [], then array.
+			// *TREAT ME DIFFERENTLY!*
+			if(node.assignmentIsArray) 
+			{
+				throw new ExceptionSemantic("Arrays are not yet implemented, young one!");
+			}
+			
 			if (reference == null)
 				reference = scope.defineVariable(name);
 			node.optimised = reference;

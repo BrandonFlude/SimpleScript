@@ -70,18 +70,6 @@ public class ParserDebugger implements SimpleScriptVisitor {
 		return data;
 	}
 	
-	// Class body
-	public Object visit(ASTClassBody node, Object data) {
-		dump(node, data);
-		return data;
-	}
-	
-	// Class definition
-	public Object visit(ASTClassDef node, Object data) {
-		dump(node, data);
-		return data;
-	}
-	
 	// Function return expression
 	public Object visit(ASTReturnExpression node, Object data) {
 		dump(node, data);
@@ -268,15 +256,4 @@ public class ParserDebugger implements SimpleScriptVisitor {
 		dump(node, data);
 		return data;
 	}
-
-	public Object visit(ASTClassCall node, Object data) {
-		dump(node, data);
-		return null;
-	}
-
-	public Object visit(ASTClassInvoke node, Object data) {
-		dump(node, data);
-		return null;
-	}
-
 }

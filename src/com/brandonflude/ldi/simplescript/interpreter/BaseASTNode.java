@@ -25,4 +25,7 @@ public class BaseASTNode {
 	// reference a compiled function definition, so that the function needn't be redefined
 	// on every execution.	
 	public Object optimised = null;
+	
+	// Set an assignment to indicate whether it is an array or not
+	public boolean assignmentIsArray = false;
 }

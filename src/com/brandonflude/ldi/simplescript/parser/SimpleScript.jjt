@@ -263,10 +263,13 @@ void returnexpr() #ReturnExpression :
 					expression()
 }
 
-void assignment() :
+void assignment() #Assignment :
 {}
 {
-					identifier() ":" expression() #Assignment(2)
+					identifier()
+					// if has [] then do this, else do below: [ "[]" {jjtThis.assignmentIsArray = true;} ":" expression() #Assignment(3) ] 
+					[ "[]" { jjtThis.assignmentIsArray = true; } ]
+					":" expression() //#Assignment(2)
 }
 
 void ifstatement() #IfStatement :

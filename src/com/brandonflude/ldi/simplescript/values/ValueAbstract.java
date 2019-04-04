@@ -58,12 +58,12 @@ public abstract class ValueAbstract implements Value {
 	}
 
 	/** Convert this to a primitive long. */
-	public long longValue() {
+	public long longValue() {	
 		throw new ExceptionSemantic("Cannot convert " + getName() + " to integer.");
 	}
 
 	/** Convert this to a primitive double. */
-	public double doubleValue() {
+	public double doubleValue() {	
 		throw new ExceptionSemantic("Cannot convert " + getName() + " to rational.");
 	}
 
@@ -71,7 +71,7 @@ public abstract class ValueAbstract implements Value {
 	public String stringValue() {
 		throw new ExceptionSemantic("Cannot convert " + getName() + " to string.");
 	}
-
+	
 	/** Test this value and another for equality. */
 	public Value eq(Value v) {
 		return new ValueBoolean(compare(v) == 0);

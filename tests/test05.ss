@@ -11,5 +11,4 @@ func printNTwice(n) {
 
 i: 3
 ++i
---i
 printNTwice(i)

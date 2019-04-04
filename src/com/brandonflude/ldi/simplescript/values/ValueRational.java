@@ -21,6 +21,10 @@ public class ValueRational extends ValueAbstract {
 	public String stringValue() {
 		return "" + internalValue;
 	}
+	
+	public int intValue() {
+		return (int)internalValue;
+	}
 
 	public int compare(Value v) {
 		if (internalValue == v.doubleValue())
@@ -31,8 +35,16 @@ public class ValueRational extends ValueAbstract {
 			return -1;
 	}
 	
+	// This is where 1.5 + 3 = 4.5 happens
 	public Value add(Value v) {
-		return new ValueRational(internalValue + v.doubleValue());
+		if(v.doubleValue() == (int)v.doubleValue())
+		{
+			return new ValueDouble(internalValue + v.doubleValue());
+		}
+		else
+		{
+			return new ValueRational(internalValue + v.intValue());
+		}
 	}
 
 	public Value subtract(Value v) {

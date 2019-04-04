@@ -17,6 +17,10 @@ public class ValueString extends ValueAbstract {
 		return "string";
 	}
 	
+	public int intValue() {
+		return Integer.valueOf(internalValue);
+	}
+	
 	/** Convert this to a String. */
 	public String stringValue() {
 		return internalValue;		

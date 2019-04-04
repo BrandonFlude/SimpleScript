@@ -57,6 +57,9 @@ public interface Value {
 	/** Convert this to a primitive string. */
 	public String stringValue();
 	
+	/** Convert this to a primitive integer. */
+	public int intValue();
+	
 	/** Test this value and another for equality. */
 	public Value eq(Value v);
 	

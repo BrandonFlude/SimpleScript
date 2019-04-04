@@ -17,6 +17,10 @@ public class ValueBoolean extends ValueAbstract {
 		return internalValue;
 	}
 	
+	public int intValue(){
+		return internalValue ? 1 : 0;
+	}
+	
 	/** Convert this to a primitive string. */
 	public String stringValue() {
 		return (internalValue) ? "true" : "false";

@@ -382,18 +382,10 @@ public class Parser implements SimpleScriptVisitor {
 	// Return integer literal
 	public Object visit(ASTInteger node, Object data) {
 		if (node.optimised == null)
-			node.optimised = new ValueInteger(Long.parseLong(node.tokenValue));
+			node.optimised = new ValueInteger(Integer.parseInt(node.tokenValue));
+			//node.optimised = new ValueInteger(Long.parseLong(node.tokenValue));
 		return node.optimised;
 	}
-	
-	/*
-	// Return double literal
-	public Object visit(ASTDouble node, Object data) {
-		if (node.optimised == null)
-			node.optimised = new ValueDouble(Long.parseLong(node.tokenValue));
-		return node.optimised;
-	}
-	*/
 
 	// Return floating point literal
 	public Object visit(ASTRational node, Object data) {

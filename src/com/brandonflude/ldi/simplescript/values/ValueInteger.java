@@ -2,10 +2,10 @@ package com.brandonflude.ldi.simplescript.values;
 
 public class ValueInteger extends ValueAbstract {
 
-	private long internalValue;
+	private int internalValue;
 	
-	public ValueInteger(long b) {
-		internalValue = b;
+	public ValueInteger(int l) {
+		internalValue = l;
 	}
 	
 	public String getName() {
@@ -14,7 +14,7 @@ public class ValueInteger extends ValueAbstract {
 	
 	/** Convert this to a primitive long. */
 	public long longValue() {
-		return internalValue;
+		return (long)internalValue;
 	}
 	
 	/** Convert this to a primitive double. */
@@ -26,6 +26,10 @@ public class ValueInteger extends ValueAbstract {
 	public String stringValue() {
 		return "" + internalValue;
 	}
+	
+	public int intValue() {
+		return (int)internalValue;
+	}
 
 	public int compare(Value v) {
 		if (internalValue == v.longValue())
@@ -36,12 +40,20 @@ public class ValueInteger extends ValueAbstract {
 			return -1;
 	}
 	
-	public Value add(Value v) {
-		return new ValueInteger(internalValue + v.longValue());
+	public Value add(Value v) {		
+		// Check if number is a whole Number		
+		if(v.doubleValue() == (int)v.doubleValue())
+		{
+			return new ValueInteger(internalValue + v.intValue());
+		}
+		else
+		{
+			return new ValueDouble(internalValue + v.doubleValue());
+		}
 	}
 
 	public Value subtract(Value v) {
-		return new ValueInteger(internalValue - v.longValue());
+		return new ValueInteger(internalValue - v.intValue());
 	}
 	
 	public Value add1() {
@@ -53,11 +65,11 @@ public class ValueInteger extends ValueAbstract {
 	}
 
 	public Value mult(Value v) {
-		return new ValueInteger(internalValue * v.longValue());
+		return new ValueInteger(internalValue * v.intValue());
 	}
 
 	public Value div(Value v) {
-		return new ValueInteger(internalValue / v.longValue());
+		return new ValueInteger(internalValue / v.intValue());
 	}
 
 	public Value unary_plus() {

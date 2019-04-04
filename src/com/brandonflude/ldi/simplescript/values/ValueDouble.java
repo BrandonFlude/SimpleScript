@@ -26,6 +26,10 @@ public class ValueDouble extends ValueAbstract {
 	public String stringValue() {
 		return "" + internalValue;
 	}
+	
+	public int intValue() {
+		return (int)internalValue;
+	}
 
 	public int compare(Value v) {
 		if (internalValue == v.longValue())
@@ -37,6 +41,7 @@ public class ValueDouble extends ValueAbstract {
 	}
 	
 	public Value add(Value v) {
+		//!! System.out.println(internalValue + " + " + v.doubleValue());
 		return new ValueDouble(internalValue + v.doubleValue());
 	}
 

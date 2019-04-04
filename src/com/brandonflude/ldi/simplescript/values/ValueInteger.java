@@ -72,11 +72,27 @@ public class ValueInteger extends ValueAbstract {
 	}
 
 	public Value mult(Value v) {
-		return new ValueInteger(internalValue * v.intValue());
+		//return new ValueInteger(internalValue * v.intValue());
+		if(v.doubleValue() == (int)v.doubleValue())
+		{
+			return new ValueInteger(internalValue * v.intValue());
+		}
+		else
+		{
+			return new ValueDouble(internalValue * v.doubleValue());
+		}
 	}
 
 	public Value div(Value v) {
-		return new ValueInteger(internalValue / v.intValue());
+		//return new ValueInteger(internalValue / v.intValue());
+		if(v.doubleValue() == (int)v.doubleValue())
+		{
+			return new ValueInteger(internalValue / v.intValue());
+		}
+		else
+		{
+			return new ValueDouble(internalValue / v.doubleValue());
+		}
 	}
 
 	public Value unary_plus() {

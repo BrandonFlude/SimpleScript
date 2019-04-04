@@ -20,5 +20,78 @@ j: 1.2 - 0.2 // 1
 
 if(a EQUAL TO 18.7)
 {
-	write "true"
+  write "true"
+}
+
+if(b EQUAL TO 6.1894)
+{
+  write "true"
+}
+
+if(c EQUAL TO 6.9)
+{
+  write "true"
+}
+
+if(d EQUAL TO 8.333)
+{
+  write "true"
+}
+else
+{
+  write "false"
+}
+
+if(e EQUAL TO 14)
+{
+  write "true"
+}
+else
+{
+  write "false"
+}
+
+if(f EQUAL TO 0)
+{
+  write "true"
+}
+else
+{
+  write "false"
+}
+
+if(g EQUAL TO 2.5)
+{
+  write "true"
+}
+else
+{
+  write "false"
+}
+
+if(h EQUAL TO 1.1)
+{
+  write "true"
+}
+else
+{
+  write "false"
+}
+
+if(i EQUAL TO 1)
+{
+  write "true"
+}
+else
+{
+  write "false"
+}
+
+if(j EQUAL TO 1)
+{
+  write "true"
+}
+else
+{
+  write "false"
 }

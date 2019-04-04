@@ -297,12 +297,12 @@ public class Parser implements SimpleScriptVisitor {
 		return doChild(node, 0).and(doChild(node, 1));
 	}
 
-	// ==
+	// EQUAL TO
 	public Object visit(ASTCompEqual node, Object data) {
 		return doChild(node, 0).eq(doChild(node, 1));
 	}
 
-	// !=
+	// NOT EQUAL TO
 	public Object visit(ASTCompNequal node, Object data) {
 		return doChild(node, 0).neq(doChild(node, 1));
 	}

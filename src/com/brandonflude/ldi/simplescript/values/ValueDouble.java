@@ -32,16 +32,15 @@ public class ValueDouble extends ValueAbstract {
 	}
 
 	public int compare(Value v) {
-		if (internalValue == v.longValue())
+		if (internalValue == v.doubleValue())
 			return 0;
-		else if (internalValue > v.longValue())
+		else if (internalValue > v.doubleValue())
 			return 1;
 		else
 			return -1;
 	}
 	
 	public Value add(Value v) {
-		//!! System.out.println(internalValue + " + " + v.doubleValue());
 		return new ValueDouble(internalValue + v.doubleValue());
 	}
 

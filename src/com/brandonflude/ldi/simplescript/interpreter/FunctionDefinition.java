@@ -55,13 +55,9 @@ class FunctionDefinition implements Comparable<Object>, Serializable {
 		return ASTFnUse;
 	}
 	
-	String getFunctionUseName() {
-		// Get contents of inside ASTFnUse node
-		return "test";
-	}
-	
 	/** Set the function body of this function. */
 	void setFunctionBody(SimpleNode node) {
+		// If a deprecated function, set body to the new code
 		ASTFunctionBody = node;
 	}
 	

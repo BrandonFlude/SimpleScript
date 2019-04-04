@@ -80,18 +80,34 @@ public class Parser implements SimpleScriptVisitor {
 			
 			// Show a system warning about this deprecation issue - but still run because I am nice :)
 			String newFunctionName = getTokenOfChild(node, 2);		
-			System.out.println("WARNING: " + fnname + " is deprecated, consider using the new function: " + newFunctionName);
 			
-			// Child 3 - function body
-			currentFunctionDefinition.setFunctionBody(getChild(node, 3));
-			// Child 4 - optional return expression
-			if (node.fnHasReturn)
-				currentFunctionDefinition.setFunctionReturnExpression(getChild(node, 4));
+			//System.out.println("WARNING: " + fnname + " is deprecated, consider using the new function: " + newFunctionName);		
+			if (scope.findFunction(newFunctionName) != null)
+			{
+				// Child 3 - function body
+				
+				// Get the function body from the /other/ function, use the hashmap?
+				FunctionDefinition replacementFunction = scope.findFunction(newFunctionName);
+				currentFunctionDefinition.setFunctionBody(replacementFunction.getFunctionBody());
+				
+				// Print out body?
+				String test = currentFunctionDefinition.getFunctionBody().toString();
+				System.out.println(test);
+				
+				// Child 4 - optional return expression
+				if (node.fnHasReturn)
+					currentFunctionDefinition.setFunctionReturnExpression(replacementFunction.getFunctionReturnExpression());
+			}
+			else
+			{
+				throw new ExceptionSemantic("Couldn't find the replacement function. Is it declared ABOVE the old function?");
+			}
 		}
 		else
 		{
 			// Child 2 - function body
 			currentFunctionDefinition.setFunctionBody(getChild(node, 2));
+						
 			// Child 3 - optional return expression
 			if (node.fnHasReturn)
 				currentFunctionDefinition.setFunctionReturnExpression(getChild(node, 3));

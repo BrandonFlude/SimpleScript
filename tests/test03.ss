@@ -1,9 +1,5 @@
-func newFunction(n) {
-	write n
-}
-
 func fib(n) {
-	@USE newfunction
+	//@USE printN
 
    	if (n EQUAL TO 0 OR n EQUAL TO 1) {
   	    r: n

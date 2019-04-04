@@ -2,3 +2,4 @@ java -classpath ./bin SimpleScript < tests/test01.ss
 java -classpath ./bin SimpleScript < tests/test02.ss
 java -classpath ./bin SimpleScript < tests/test03.ss
 java -classpath ./bin SimpleScript < tests/test04.ss
+java -classpath ./bin SimpleScript < tests/test05.ss

@@ -1,16 +1,24 @@
-integer1: 3
-integer2: 7
-dec1: 1.5
-result: 0
-result2: 0
+a: 17 + 1.7 // 18.7
 
-// Check numbers match, if they don't - add them together.
+b: 1.1894 + 5 // 6.1894
 
-if(integer1 NOT EQUAL TO integer2)
-{ 
-	result: integer1 + dec1
-	result2: dec1 + integer1
+c: 7 - 0.1 // 6.9
+
+d: 9.333 - 1 // 8.333
+
+e: 10 + 4 // 14
+
+f: 11 - 11 // 0
+
+g: 1.2 + 1.3 // 2.5
+
+h: 1.5 - 0.4 // 1.1
+
+i: 0.4 + 0.6 // 1
+
+j: 1.2 - 0.2 // 1
+
+if(a EQUAL TO 18.7)
+{
+	write "true"
 }
-
-write result
-write result2

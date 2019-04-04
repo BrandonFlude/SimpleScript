@@ -35,7 +35,6 @@ public class ValueRational extends ValueAbstract {
 			return -1;
 	}
 	
-	// This is where 1.5 + 3 = 4.5 happens
 	public Value add(Value v) {
 		if(v.doubleValue() == (int)v.doubleValue())
 		{
@@ -43,12 +42,19 @@ public class ValueRational extends ValueAbstract {
 		}
 		else
 		{
-			return new ValueRational(internalValue + v.intValue());
+			return new ValueRational(internalValue + v.doubleValue());
 		}
 	}
 
 	public Value subtract(Value v) {
-		return new ValueRational(internalValue - v.doubleValue());
+		if(v.doubleValue() == (int)v.doubleValue())
+		{
+			return new ValueDouble(internalValue - v.doubleValue());
+		}
+		else
+		{
+			return new ValueRational(internalValue - v.doubleValue());
+		}
 	}
 
 	public Value mult(Value v) {

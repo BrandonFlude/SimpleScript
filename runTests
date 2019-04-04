@@ -2,7 +2,7 @@
 echo "=== If Statements ==="
 java -classpath ./bin SimpleScript < tests/test01.ss
 
-echo "=== Creating Variables ==="
+echo "=== Maths With Different Types ==="
 java -classpath ./bin SimpleScript < tests/test02.ss
 
 echo "=== Fibonacci Sequence ==="

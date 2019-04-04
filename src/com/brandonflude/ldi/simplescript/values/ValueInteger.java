@@ -53,7 +53,14 @@ public class ValueInteger extends ValueAbstract {
 	}
 
 	public Value subtract(Value v) {
-		return new ValueInteger(internalValue - v.intValue());
+		if(v.doubleValue() == (int)v.doubleValue())
+		{
+			return new ValueInteger(internalValue - v.intValue());
+		}
+		else
+		{
+			return new ValueDouble(internalValue - v.doubleValue());
+		}
 	}
 	
 	public Value add1() {

@@ -36,49 +36,24 @@ public class ValueRational extends ValueAbstract {
 	}
 	
 	public Value add(Value v) {
+		return new ValueRational(internalValue + v.doubleValue());
+		/*
 		if(v.doubleValue() == (int)v.doubleValue())
-		{
-			return new ValueDouble(internalValue + v.doubleValue());
-		}
-		else
-		{
-			return new ValueRational(internalValue + v.doubleValue());
-		}
+		{return new ValueDouble(internalValue + v.doubleValue());}
+		else{return new ValueRational(internalValue + v.doubleValue());}
+		*/
 	}
 
 	public Value subtract(Value v) {
-		if(v.doubleValue() == (int)v.doubleValue())
-		{
-			return new ValueDouble(internalValue - v.doubleValue());
-		}
-		else
-		{
-			return new ValueRational(internalValue - v.doubleValue());
-		}
+		return new ValueRational(internalValue - v.doubleValue());
 	}
 
 	public Value mult(Value v) {
-		//return new ValueRational(internalValue * v.doubleValue());
-		if(v.doubleValue() == (int)v.doubleValue())
-		{
-			return new ValueDouble(internalValue * v.doubleValue());
-		}
-		else
-		{
-			return new ValueRational(internalValue * v.doubleValue());
-		}
+		return new ValueRational(internalValue * v.doubleValue());
 	}
 
 	public Value div(Value v) {
-		//return new ValueRational(internalValue / v.doubleValue());
-		if(v.doubleValue() == (int)v.doubleValue())
-		{
-			return new ValueDouble(internalValue / v.doubleValue());
-		}
-		else
-		{
-			return new ValueRational(internalValue / v.doubleValue());
-		}
+		return new ValueRational(internalValue / v.doubleValue());
 	}
 
 	public Value unary_plus() {

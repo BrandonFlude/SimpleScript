@@ -43,6 +43,14 @@ public class ValueInteger extends ValueAbstract {
 	public Value subtract(Value v) {
 		return new ValueInteger(internalValue - v.longValue());
 	}
+	
+	public Value add1() {
+		return new ValueInteger(internalValue + 1);
+	}
+
+	public Value subtract1() {
+		return new ValueInteger(internalValue - 1);
+	}
 
 	public Value mult(Value v) {
 		return new ValueInteger(internalValue * v.longValue());

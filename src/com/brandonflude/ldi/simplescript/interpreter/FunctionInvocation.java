@@ -2,7 +2,6 @@ package com.brandonflude.ldi.simplescript.interpreter;
 
 import java.util.Vector;
 
-import com.brandonflude.ldi.simplescript.parser.ast.SimpleNode;
 import com.brandonflude.ldi.simplescript.values.Value;
 
 /** Function invocation context. */

@@ -90,10 +90,6 @@ public class Parser implements SimpleScriptVisitor {
 				FunctionDefinition replacementFunction = scope.findFunction(newFunctionName);
 				currentFunctionDefinition.setFunctionBody(replacementFunction.getFunctionBody());
 				
-				// Print out body?
-				String test = currentFunctionDefinition.getFunctionBody().toString();
-				System.out.println(test);
-				
 				// Child 4 - optional return expression
 				if (node.fnHasReturn)
 					currentFunctionDefinition.setFunctionReturnExpression(replacementFunction.getFunctionReturnExpression());
@@ -340,7 +336,17 @@ public class Parser implements SimpleScriptVisitor {
 	public Object visit(ASTSubtract node, Object data) {
 		return doChild(node, 0).subtract(doChild(node, 1));
 	}
-
+	
+	// ++
+	public Object visit(ASTAdd1 node, Object data) {
+		return doChild(node, 0).add1();
+	}
+	
+	// --
+	public Object visit(ASTSubtract1 node, Object data) {
+		return doChild(node, 0).subtract1();
+	}
+	
 	// *
 	public Object visit(ASTTimes node, Object data) {
 		return doChild(node, 0).mult(doChild(node, 1));

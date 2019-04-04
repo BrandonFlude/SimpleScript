@@ -27,6 +27,14 @@ public abstract class ValueAbstract implements Value {
 	public Value subtract(Value v) {
 		throw new ExceptionSemantic("Cannot perform - on " + getName() + " and " + v.getName());
 	}
+	
+	public Value add1() {
+		throw new ExceptionSemantic("Cannot perform ++ on " + getName());
+	}
+
+	public Value subtract1() {
+		throw new ExceptionSemantic("Cannot perform -- on " + getName());
+	}
 
 	public Value mult(Value v) {
 		throw new ExceptionSemantic("Cannot perform * on " + getName() + " and " + v.getName());

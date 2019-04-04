@@ -24,6 +24,12 @@ public interface Value {
 	/** Add this value to another. */
 	public Value add(Value v);
 	
+	/** Add one to a value. */
+	public Value add1();
+	
+	/** Sub one from a value. */
+	public Value subtract1();
+	
 	/** Subtract another value from this. */
 	public Value subtract(Value v);
 	

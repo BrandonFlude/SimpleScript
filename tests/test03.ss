@@ -1,4 +1,4 @@
-func newfunction(n) {
+func newFunction(n) {
 	write n
 }
 
@@ -14,6 +14,6 @@ func fib(n) {
 
 }
 
-for (i: 0; i LESS THAN 35; i: i + 1) {
+for (i: 0; i LESS THAN 10; i: i + 1) {
     write fib(i)
 }

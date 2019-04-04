@@ -21,6 +21,7 @@ class FunctionDefinition implements Comparable<Object>, Serializable {
 	private HashMap<String, Integer> slots = new HashMap<String, Integer>();
 	private HashMap<String, FunctionDefinition> functions = new HashMap<String, FunctionDefinition>();
 	private SimpleNode ASTFunctionBody = null;
+	private SimpleNode ASTFnUse = null;
 	private SimpleNode ASTFunctionReturnExpression = null;
 	private int depth;
 	
@@ -45,6 +46,20 @@ class FunctionDefinition implements Comparable<Object>, Serializable {
 		return name;
 	}
 	
+	/** Set the function @USE case */
+	void setFunctionUse(SimpleNode node) {
+		ASTFnUse = node;
+	}
+	
+	SimpleNode getFunctionUse() {
+		return ASTFnUse;
+	}
+	
+	String getFunctionUseName() {
+		// Get contents of inside ASTFnUse node
+		return "test";
+	}
+	
 	/** Set the function body of this function. */
 	void setFunctionBody(SimpleNode node) {
 		ASTFunctionBody = node;
@@ -62,7 +77,7 @@ class FunctionDefinition implements Comparable<Object>, Serializable {
 	
 	/** Get the return expression of this function. */
 	SimpleNode getFunctionReturnExpression() {
-		return ASTFunctionReturnExpression;
+		return ASTFunctionReturnExpression;  
 	}
 	
 	/** Get the signature of this function. */
@@ -73,6 +88,11 @@ class FunctionDefinition implements Comparable<Object>, Serializable {
 	/** True if this function has a return value. */
 	boolean hasReturn() {
 		return (ASTFunctionReturnExpression != null);
+	}
+	
+	/** True if this function has a new function to use. */
+	boolean isDeprecated() {
+		return (ASTFnUse != null);
 	}
 	
 	/** Comparison operator.  Functions of the same name are the same. */
@@ -131,5 +151,4 @@ class FunctionDefinition implements Comparable<Object>, Serializable {
 	FunctionDefinition findFunction(String name) {
 		return functions.get(name);
 	}
-
 }

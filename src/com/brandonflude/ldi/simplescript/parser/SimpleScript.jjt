@@ -251,7 +251,7 @@ void fndef() #FnDef :
 {}
 {
 					<FUNC> identifier() parmlist() "{"
-						[ "@" <USE> identifier() {jjtThis.fnIsDepreciated = true;} ] 
+						[ "@" <USE> fnUse() {jjtThis.fnIsDeprecated = true;} ]
 						fnbody()
 						[ <RET> returnexpr() {jjtThis.fnHasReturn = true;} ] 
 					"}"
@@ -261,6 +261,12 @@ void returnexpr() #ReturnExpression :
 {}
 {
 					expression()
+}
+
+void fnUse() :
+{}
+{
+					identifier()
 }
 
 void assignment() #Assignment :

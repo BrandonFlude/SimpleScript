@@ -58,6 +58,12 @@ public class ParserDebugger implements SimpleScriptVisitor {
 		return data;
 	}
 	
+	// Function @USE
+	public Object visit(ASTFnUse node, Object data) {
+		dump(node, data);
+		return data;
+	}
+	
 	// Function body
 	public Object visit(ASTFnBody node, Object data) {
 		dump(node, data);

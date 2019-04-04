@@ -2,6 +2,7 @@ package com.brandonflude.ldi.simplescript.interpreter;
 
 import java.util.Vector;
 
+import com.brandonflude.ldi.simplescript.parser.ast.SimpleNode;
 import com.brandonflude.ldi.simplescript.values.Value;
 
 /** Function invocation context. */
@@ -44,6 +45,18 @@ class FunctionInvocation {
 	
 	/** Execute this invocation. */
 	Value execute(Parser parser) {
+		// If function has a depreciation mark (@USE)
+		if(function.isDeprecated())
+		{
+			// Get @USE function name
+			String oldFunctionName = function.getName();
+			String newFunctionName = function.getFunctionUse().tokenValue;
+			
+			// Somehow use oldFunction and NewFunction to change the function.body and function.return?
+			
+			// NEAT!
+		}
+		
 		parser.doChildren(function.getFunctionBody(), null);
 		if (function.hasReturn())
 			return parser.doChild(function.getFunctionReturnExpression(), 0);

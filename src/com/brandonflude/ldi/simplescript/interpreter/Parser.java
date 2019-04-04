@@ -65,38 +65,30 @@ public class Parser implements SimpleScriptVisitor {
 		if (scope.findFunctionInCurrentLevel(fnname) != null)
 			throw new ExceptionSemantic("Function " + fnname + " already exists.");
 		FunctionDefinition currentFunctionDefinition = new FunctionDefinition(fnname, scope.getLevel() + 1);
+		
 		// Child 1 - function definition parameter list
 		doChild(node, 1, currentFunctionDefinition);
 		// Add to available functions
 		scope.addFunction(currentFunctionDefinition);
 		
 		// Here will be code for switching between no OLD definition or has a NEW Definition
-		if (node.fnIsDepreciated) // run new function from definition
-		{	
-			// This will need to shift to the new function
-			String useFunction = getTokenOfChild(node, 2);
-			//throw new ExceptionSemantic("Attempting to use new function: " + useFunction + ".");
+		if (node.fnIsDeprecated) // run new function from definition
+		{				
+			// This will need to shift up 1 to the new function
+			// Child 2 - function use
+			currentFunctionDefinition.setFunctionUse(getChild(node, 2));
 			
-			if (scope.findFunctionInCurrentLevel(useFunction) == null)
-			{
-				throw new ExceptionSemantic("Alternate function: " + useFunction + " wasn't found. Is it declared BEFORE the OLD function?");
-			}
-			else
-			{
-				throw new ExceptionSemantic("Attempting to use new function: " + useFunction + ".");
-			}
-		
+			// Show a system warning about this deprecation issue - but still run because I am nice :)
+			String newFunctionName = getTokenOfChild(node, 2);		
+			System.out.println("WARNING: " + fnname + " is deprecated, consider using the new function: " + newFunctionName);
 			
-			/*
-			// BUT FOR NOW MOVE EVERYTHING UP ONE CHILD
 			// Child 3 - function body
 			currentFunctionDefinition.setFunctionBody(getChild(node, 3));
 			// Child 4 - optional return expression
 			if (node.fnHasReturn)
 				currentFunctionDefinition.setFunctionReturnExpression(getChild(node, 4));
-			*/
 		}
-		else // run function as normal
+		else
 		{
 			// Child 2 - function body
 			currentFunctionDefinition.setFunctionBody(getChild(node, 2));
@@ -104,7 +96,7 @@ public class Parser implements SimpleScriptVisitor {
 			if (node.fnHasReturn)
 				currentFunctionDefinition.setFunctionReturnExpression(getChild(node, 3));
 		}
-		
+	
 		// Preserve this definition for future reference, and so we don't define
 		// it every time this node is processed.
 		node.optimised = currentFunctionDefinition;
@@ -117,6 +109,11 @@ public class Parser implements SimpleScriptVisitor {
 		for (int i=0; i<node.jjtGetNumChildren(); i++)
 			currentDefinition.defineParameter(getTokenOfChild(node, i));
 		return data;
+	}
+	
+	// Function @USE Identifier
+	public Object visit(ASTFnUse node, Object data) {
+		return doChildren(node, data);
 	}
 	
 	// Function body
@@ -164,7 +161,7 @@ public class Parser implements SimpleScriptVisitor {
 			// Save it for next time
 			node.optimised = fndef;
 		} else
-			fndef = (FunctionDefinition)node.optimised;
+			fndef = (FunctionDefinition)node.optimised;	
 		FunctionInvocation newInvocation = new FunctionInvocation(fndef);
 		// Child 1 - arglist
 		doChild(node, 1, newInvocation);
@@ -266,7 +263,7 @@ public class Parser implements SimpleScriptVisitor {
 			// *TREAT ME DIFFERENTLY!*
 			if(node.assignmentIsArray) 
 			{
-				throw new ExceptionSemantic("Arrays are not yet implemented, young one!");
+				throw new ExceptionSemantic("Arrays are not yet implemented!");
 			}
 			
 			if (reference == null)
@@ -401,5 +398,4 @@ public class Parser implements SimpleScriptVisitor {
 		System.exit(0);
 		return node.optimised;
 	}
-
 }

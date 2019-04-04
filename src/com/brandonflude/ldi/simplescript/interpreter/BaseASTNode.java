@@ -19,7 +19,7 @@ public class BaseASTNode {
 	
 	// Set at parse-time in a function definition to indicate whether or not the function
 	// has been marked as old and has an alternative.
-	public boolean fnIsDepreciated = false;
+	public boolean fnIsDeprecated = false;
 	
 	// References an object that optimises execution of the node.  For example, it might 
 	// reference a compiled function definition, so that the function needn't be redefined

@@ -21,7 +21,6 @@ n: 2.5 * 3 // 7.5
 
 o: 2.5 * 3 + 2.5 // 10
 
-
 if(a EQUAL TO 18.7)
 {
   write "a: true"

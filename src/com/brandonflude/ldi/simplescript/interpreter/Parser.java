@@ -81,12 +81,14 @@ public class Parser implements SimpleScriptVisitor {
 			// Show a system warning about this deprecation issue - but still run because I am nice :)
 			String newFunctionName = getTokenOfChild(node, 2);		
 			
-			//System.out.println("WARNING: " + fnname + " is deprecated, consider using the new function: " + newFunctionName);		
+			
+			// Optional Println for warning
+			// System.out.println("WARNING: " + fnname + " is deprecated, consider using the new function: " + newFunctionName);		
 			if (scope.findFunction(newFunctionName) != null)
 			{
 				// Child 3 - function body
 				
-				// Get the function body from the /other/ function, use the hashmap?
+				// Get the function body from the /other/ function, use the scope to find it (should be previously declared)
 				FunctionDefinition replacementFunction = scope.findFunction(newFunctionName);
 				currentFunctionDefinition.setFunctionBody(replacementFunction.getFunctionBody());
 				

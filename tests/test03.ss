@@ -1,4 +1,9 @@
+func test(n) {
+	ret n*n
+}
+
 func fib(n) {
+	//@USE test (will print all square numbers)
    	if (n EQUAL TO 0 OR n EQUAL TO 1) {
   	    r: n
   	} else {

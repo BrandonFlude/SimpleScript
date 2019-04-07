@@ -81,8 +81,7 @@ public class Parser implements SimpleScriptVisitor {
 			// Show a system warning about this deprecation issue - but still run because I am nice :)
 			String newFunctionName = getTokenOfChild(node, 2);		
 			
-			
-			// Optional Println for warning
+			// Optional println for warning
 			// System.out.println("WARNING: " + fnname + " is deprecated, consider using the new function: " + newFunctionName);		
 			if (scope.findFunction(newFunctionName) != null)
 			{
@@ -98,7 +97,7 @@ public class Parser implements SimpleScriptVisitor {
 			}
 			else
 			{
-				throw new ExceptionSemantic("Couldn't find the replacement function. Is it declared ABOVE the old function?");
+				throw new ExceptionSemantic("Couldn't find the @USE defined function. Is it declared ABOVE the old function?");
 			}
 		}
 		else
@@ -247,7 +246,18 @@ public class Parser implements SimpleScriptVisitor {
 	
 	// Execute the WRITE statement
 	public Object visit(ASTWrite node, Object data) {
-		System.out.println(doChild(node, 0));
+		// If we have a concatenation, fetch child 1 value and concat, else return node 0
+		if(node.writeIsConcatenation)
+		{
+			// Get child and concat
+			String part1 = doChild(node, 0).toString();
+			String part2 = doChild(node, 1).toString();
+			System.out.println(part1 + part2);
+		}
+		else
+		{
+			System.out.println(doChild(node, 0));
+		}
 		return data;
 	}
 	

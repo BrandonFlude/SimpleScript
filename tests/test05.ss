@@ -9,6 +9,10 @@ func printNTwice(n) {
 	write n
 }
 
-i: 8.9
-//++i
+i: 9
 printNTwice(i)
+
+a: "Hello"
+b: "World"
+
+write a.b

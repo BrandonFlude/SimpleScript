@@ -19,7 +19,9 @@ l: 5.5 * 5.5 // 30.25
 m: 2 * 2.5 // 5
 n: 2.5 * 3 // 7.5
 
-o: 2.5 * 3 + 2.5 // 10
+o: 3 / 1.5 // 2
+p: 1.5 / 3 // 0.5
+
 
 if(a EQUAL TO 18.7)
 {
@@ -148,9 +150,18 @@ else
 	write "false"
 }
 
-if(o EQUAL TO 10)
+if(o EQUAL TO 2)
 {
 	write "o: true"
+}
+else
+{
+	write "false"
+}
+
+if(p EQUAL TO 0.5)
+{
+	write "p: true"
 }
 else
 {

@@ -1,15 +1,18 @@
 #!/bin/sh
 echo "=== If Statements ==="
-java -classpath ./bin SimpleScript < tests/test01.ss
+java -classpath ./bin SimpleScript < examples/ifstatement.ss
 
 echo "=== Maths With Different Types ==="
-java -classpath ./bin SimpleScript < tests/test02.ss
+java -classpath ./bin SimpleScript < examples/maths.ss
 
 echo "=== Fibonacci Sequence ==="
-java -classpath ./bin SimpleScript < tests/test03.ss
+java -classpath ./bin SimpleScript < examples/fib.ss
 
 echo "=== Sorting Arrays ==="
-java -classpath ./bin SimpleScript < tests/test04.ss
+java -classpath ./bin SimpleScript < examples/arrays.ss
 
 echo "=== Deprecated Functions ==="
-java -classpath ./bin SimpleScript < tests/test05.ss
+java -classpath ./bin SimpleScript < examples/deprecatedfuncs.ss
+
+echo "=== String Concatenation ==="
+java -classpath ./bin SimpleScript < examples/stringconcat.ss

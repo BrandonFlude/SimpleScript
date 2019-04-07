@@ -11,8 +11,3 @@ func printNTwice(n) {
 
 i: 9
 printNTwice(i)
-
-a: "Hello"
-b: "World"
-
-write a.b

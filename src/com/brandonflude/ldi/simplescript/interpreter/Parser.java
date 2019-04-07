@@ -250,7 +250,7 @@ public class Parser implements SimpleScriptVisitor {
 		if(node.writeIsConcatenation)
 		{
 			// Get child and concat
-			String part1 = doChild(node, 0).toString();
+			String part1 = doChild(node, 0).toString(); 
 			String part2 = doChild(node, 1).toString();
 			System.out.println(part1 + part2);
 		}

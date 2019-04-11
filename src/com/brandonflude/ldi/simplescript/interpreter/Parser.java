@@ -350,12 +350,48 @@ public class Parser implements SimpleScriptVisitor {
 	
 	// ++
 	public Object visit(ASTAdd1 node, Object data) {
-		return doChild(node, 0).add1();
+		// Get the value for I from memory
+		Display.Reference reference;
+		if (node.optimised == null) {
+			String name = getTokenOfChild(node, 0);
+			reference = scope.findReference(name);
+		
+			if (reference == null) {
+				reference = scope.defineVariable(name);
+				node.optimised = reference;
+			}
+			// Set to +1
+			reference.setValue(reference.getValue().add1());
+		
+		} else {
+			reference = (Display.Reference)node.optimised;
+			// Set to +1
+			reference.setValue(reference.getValue().add1());
+		}
+		return data;
 	}
 	
 	// --
 	public Object visit(ASTSubtract1 node, Object data) {
-		return doChild(node, 0).subtract1();
+		// Get the value for I from memory
+		Display.Reference reference;
+		if (node.optimised == null) {
+			String name = getTokenOfChild(node, 0);
+			reference = scope.findReference(name);
+		
+			if (reference == null) {
+				reference = scope.defineVariable(name);
+				node.optimised = reference;
+			}
+			// Set to -1
+			reference.setValue(reference.getValue().subtract1());
+		
+		} else {
+			reference = (Display.Reference)node.optimised;
+			// Set to -1
+			reference.setValue(reference.getValue().subtract1());
+		}
+		return data;
 	}
 	
 	// *

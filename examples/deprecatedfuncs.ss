@@ -10,4 +10,10 @@ func printNTwice(n) {
 }
 
 i: 9
+//++i
+i++
 printNTwice(i)
+
+i++
+
+printNN(i)

@@ -219,6 +219,8 @@ void statement() #Statement :
 {}
 {
 				 	LOOKAHEAD(2) assignment()
+				|   LOOKAHEAD(2) plus_one_expression()
+				|   LOOKAHEAD(2) sub_one_expression()
 				|	fndef()
 				|	block()
 				|	ifstatement()	
@@ -275,7 +277,7 @@ void assignment() #Assignment :
 {
 					identifier()
 					[ "[]" { jjtThis.assignmentIsArray = true; } ]
-					":" expression() //#Assignment(2)
+					":" expression()
 }
 
 void ifstatement() #IfStatement :
@@ -358,16 +360,19 @@ void add_expression() :
                               mul_expression() (
                                   "+"  mul_expression() #Add(2)
                                 | "-"  mul_expression() #Subtract(2)
-                                | one_expression()
                               )*
 }
 
-
-void one_expression() :
+void plus_one_expression() #Add1(1) :
 {}
 {
- 								  "++" identifier() #Add1(2)
-                                | "--" identifier() #Subtract1(2)
+  								identifier() <PP>
+}
+
+void sub_one_expression() :
+{}
+{
+  								identifier() <MM> #Subtract1(2)
 }
 
 void mul_expression() : 

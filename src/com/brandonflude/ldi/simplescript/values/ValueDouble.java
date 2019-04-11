@@ -48,6 +48,14 @@ public class ValueDouble extends ValueAbstract {
 		return new ValueDouble(internalValue - v.doubleValue());
 	}
 
+	public Value add1() {
+		return new ValueDouble(internalValue + 1);
+	}
+
+	public Value subtract1() {
+		return new ValueDouble(internalValue - 1);
+	}
+	
 	public Value mult(Value v) {
 		return new ValueDouble(internalValue * v.doubleValue());
 	}

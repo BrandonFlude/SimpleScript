@@ -48,6 +48,15 @@ public class ValueRational extends ValueAbstract {
 		return new ValueRational(internalValue - v.doubleValue());
 	}
 
+	public Value add1() {
+		return new ValueRational(internalValue + 1);
+	}
+
+	public Value subtract1() {
+		return new ValueRational(internalValue - 1);
+	}
+	
+	
 	public Value mult(Value v) {
 		return new ValueRational(internalValue * v.doubleValue());
 	}

@@ -369,10 +369,10 @@ void plus_one_expression() #Add1(1) :
   								identifier() <PP>
 }
 
-void sub_one_expression() :
+void sub_one_expression() #Subtract1(1) :
 {}
 {
-  								identifier() <MM> #Subtract1(2)
+  								identifier() <MM>
 }
 
 void mul_expression() : 

@@ -40,11 +40,6 @@ public class ValueDouble extends ValueAbstract {
 			return -1;
 	}
 	
-	public Value add1(Value v) {
-		return new ValueDouble(internalValue + 1);
-	}
-	
-	
 	public Value add(Value v) {
 		return new ValueDouble(internalValue + v.doubleValue());
 	}

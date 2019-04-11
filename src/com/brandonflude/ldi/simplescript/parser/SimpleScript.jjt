@@ -290,8 +290,17 @@ void ifstatement() #IfStatement :
 void forloop() #ForLoop :
 {}
 {
-  					<FOR> "(" assignment() ";" expression() ";" assignment() ")" statement()
+  					<FOR> "(" assignment() ";" expression() ";" foriteration() ")" statement()
 }
+
+void foriteration() :
+{}
+{
+  					LOOKAHEAD(2) assignment()
+				|   LOOKAHEAD(2) plus_one_expression()
+				|   LOOKAHEAD(2) sub_one_expression()
+}
+
 
 void whileloop() #WhileLoop :
 {}

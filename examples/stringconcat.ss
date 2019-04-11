@@ -1,4 +1,5 @@
 a: "Hello"
 b: "World"
+c: " "
 
-write a.b
+write a.c.b

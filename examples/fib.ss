@@ -3,7 +3,7 @@ func test(n) {
 }
 
 func fib(n) {
-	//@USE test (will print all square numbers)
+	//@USE test (will print all square numbers up to max i)
    	if (n EQUAL TO 0 OR n EQUAL TO 1) {
   	    r: n
   	} else {

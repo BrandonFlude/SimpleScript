@@ -30,5 +30,5 @@ public class BaseASTNode {
 	public boolean assignmentIsArray = false;
 	
 	// Set a write statement to show it is being concatenated with another value when printed out
-	public boolean writeIsConcatenation = false;
+	// public boolean writeIsConcatenation = false; <- Not currently needed
 }

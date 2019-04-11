@@ -246,18 +246,17 @@ public class Parser implements SimpleScriptVisitor {
 	
 	// Execute the WRITE statement
 	public Object visit(ASTWrite node, Object data) {
-		// If we have a concatenation, fetch child 1 value and concat, else return node 0
-		if(node.writeIsConcatenation)
+		// Find number of nodes
+		int numOfChildren = node.jjtGetNumChildren();
+		String stringBuilder = "";
+				 
+		// Loop through all the children, appending to a string as we go
+		for(int c = 0; c < numOfChildren; c++)
 		{
-			// Get child and concat
-			String part1 = doChild(node, 0).toString(); 
-			String part2 = doChild(node, 1).toString();
-			System.out.println(part1 + part2);
+			stringBuilder = stringBuilder + doChild(node, c).toString();  
 		}
-		else
-		{
-			System.out.println(doChild(node, 0));
-		}
+
+		System.out.println(stringBuilder);
 		return data;
 	}
 	

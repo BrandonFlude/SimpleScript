@@ -301,8 +301,7 @@ void write() #Write :
 {}
 {
 
-					<WRITE> expression() 
-					[ "." ( expression() ) {jjtThis.writeIsConcatenation = true;} ]
+					<WRITE> expression() ( "." expression() )*
 					
 }
 

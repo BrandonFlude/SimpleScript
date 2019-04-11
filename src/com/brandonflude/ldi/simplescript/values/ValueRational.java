@@ -54,6 +54,7 @@ public class ValueRational extends ValueAbstract {
 
 	public Value subtract1() {
 		return new ValueRational(internalValue - 1);
+		
 	}
 	
 	

@@ -54,6 +54,7 @@ public class ValueDouble extends ValueAbstract {
 
 	public Value subtract1() {
 		return new ValueDouble(internalValue - 1);
+		
 	}
 	
 	public Value mult(Value v) {

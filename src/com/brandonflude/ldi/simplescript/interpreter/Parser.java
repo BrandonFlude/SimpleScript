@@ -353,7 +353,6 @@ public class Parser implements SimpleScriptVisitor {
 	
 	// ++
 	public Object visit(ASTAdd1 node, Object data) {
-		// Get the value for I from memory
 		Display.Reference reference;
 		if (node.optimised == null) {
 			String name = getTokenOfChild(node, 0);
@@ -370,7 +369,6 @@ public class Parser implements SimpleScriptVisitor {
 	
 	// --
 	public Object visit(ASTSubtract1 node, Object data) {
-		// Get the value for I from memory
 		Display.Reference reference;
 		if (node.optimised == null) {
 			String name = getTokenOfChild(node, 0);
@@ -421,7 +419,6 @@ public class Parser implements SimpleScriptVisitor {
 	public Object visit(ASTInteger node, Object data) {
 		if (node.optimised == null)
 			node.optimised = new ValueInteger(Integer.parseInt(node.tokenValue));
-			//node.optimised = new ValueInteger(Long.parseLong(node.tokenValue));
 		return node.optimised;
 	}
 

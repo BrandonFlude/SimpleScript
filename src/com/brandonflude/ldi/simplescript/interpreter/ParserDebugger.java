@@ -270,7 +270,7 @@ public class ParserDebugger implements SimpleScriptVisitor {
 		return data;
 	}
 	
-	public Object visit(ASTQuit node, Object data) {
+	public Object visit(ASTExit node, Object data) {
 		dump(node, data);
 		return data;
 	}

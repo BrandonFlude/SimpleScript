@@ -446,7 +446,7 @@ public class Parser implements SimpleScriptVisitor {
 		return node.optimised;
 	}
 	
-	public Object visit(ASTQuit node, Object data) {
+	public Object visit(ASTExit node, Object data) {
 		System.exit(0);
 		return node.optimised;
 	}

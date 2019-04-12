@@ -72,7 +72,7 @@ TOKEN [IGNORE_CASE] : /* RESERVED WORDS AND LITERALS */
 | < NOT: "NOT" >
 | < TRUE: "TRUE" >
 | < FALSE: "FALSE" >
-| < QUIT: "QUIT" >
+| < EXIT: "EXIT" >
 | < CONST: "CONST" >
 }
 
@@ -228,7 +228,7 @@ void statement() #Statement :
 				|   whileloop()
 				|	write()
 				|	call()
-				|   quit()
+				|   exit()
 }
 
 void block() #Block :
@@ -432,7 +432,7 @@ void literal() :
                             | character()							  	
 							| rational()
 							| bool()
-							| quit()
+							| exit()
 }
 
 void identifier() #Identifier :
@@ -472,8 +472,8 @@ void bool() :
                 | <FALSE> #False
 }
 
-void quit() #Quit : 
+void exit() #Exit : 
 {Token t;} 
 { 
-	t = <QUIT> {jjtThis.tokenValue = t.image;}
+	t = <EXIT> {jjtThis.tokenValue = t.image;}
 }

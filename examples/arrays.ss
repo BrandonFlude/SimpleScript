@@ -1,4 +1,5 @@
 integerNumber: 3
-integerArray[]: 3
+integerArray[]: [2, 3, 4] 
 
-write integerNumber + integerArray
+write integerNumber
+write integerArray

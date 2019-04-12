@@ -277,8 +277,16 @@ void assignment() #Assignment :
 {
 					identifier()
 					[ "[]" { jjtThis.assignmentIsArray = true; } ]
-					":" expression()
+					":" value_assignment()
 }
+
+void value_assignment () :
+{}
+{
+	  					expression()
+	  				|   "[" expression() ( "," expression() )* "]"
+}
+
 
 void ifstatement() #IfStatement :
 {}

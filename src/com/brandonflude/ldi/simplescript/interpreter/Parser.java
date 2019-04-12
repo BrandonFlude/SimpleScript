@@ -281,12 +281,15 @@ public class Parser implements SimpleScriptVisitor {
 			String name = getTokenOfChild(node, 0);
 			reference = scope.findReference(name);
 			
-			
 			// If has [], then array.
 			// *TREAT ME DIFFERENTLY!*
 			if(node.assignmentIsArray) 
 			{
-				throw new ExceptionSemantic("Arrays are not yet implemented!");
+				// Count number of nodes to calculate how much is in the array
+				int numOfChildren = node.jjtGetNumChildren();
+				numOfChildren--; // Take 1 away as that is the variable name
+			
+				throw new ExceptionSemantic("Arrays are not yet implemented, but it has " + numOfChildren + " values");
 			}
 			
 			if (reference == null)
@@ -354,20 +357,14 @@ public class Parser implements SimpleScriptVisitor {
 		Display.Reference reference;
 		if (node.optimised == null) {
 			String name = getTokenOfChild(node, 0);
-			reference = scope.findReference(name);
-		
+			reference = scope.findReference(name);	
 			if (reference == null) {
-				reference = scope.defineVariable(name);
-				node.optimised = reference;
+				throw new ExceptionSemantic("Variable: " + name + " was not found.");
 			}
-			// Set to +1
-			reference.setValue(reference.getValue().add1());
-		
 		} else {
 			reference = (Display.Reference)node.optimised;
-			// Set to +1
-			reference.setValue(reference.getValue().add1());
 		}
+		reference.setValue(reference.getValue().add1());
 		return data;
 	}
 	
@@ -377,20 +374,14 @@ public class Parser implements SimpleScriptVisitor {
 		Display.Reference reference;
 		if (node.optimised == null) {
 			String name = getTokenOfChild(node, 0);
-			reference = scope.findReference(name);
-		
+			reference = scope.findReference(name);	
 			if (reference == null) {
-				reference = scope.defineVariable(name);
-				node.optimised = reference;
+				throw new ExceptionSemantic("Variable: " + name + " was not found.");
 			}
-			// Set to -1
-			reference.setValue(reference.getValue().subtract1());
-		
 		} else {
 			reference = (Display.Reference)node.optimised;
-			// Set to -1
-			reference.setValue(reference.getValue().subtract1());
 		}
+		reference.setValue(reference.getValue().subtract1());
 		return data;
 	}
 	

@@ -501,8 +501,6 @@ public class Parser implements SimpleScriptVisitor {
 		} catch(IOException ex) {
             System.out.println("Unable to close file");	
         }
-        
-		System.out.println("Closed file");
 		return node.optimised;
 	}
 }

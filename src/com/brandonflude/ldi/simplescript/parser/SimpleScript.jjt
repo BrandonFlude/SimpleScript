@@ -297,8 +297,8 @@ void fileexpression() :
 {}
 {
 		  					<OPENFILE> expression() "." expression() #OpenFile(2)
-		  			| 		<READFILE> #ReadFile
-		  			|  		<EDITFILE> #EditFile
+		  			| 		<READFILE> #ReadFile // <- Maybe add a [optional] file to close the old one and read new one
+		  			|  		<EDITFILE> #EditFile // <- Maybe add a [optional] file to close the old one and read new one
 		  			| 		<CLOSEFILE> #CloseFile
 }
 

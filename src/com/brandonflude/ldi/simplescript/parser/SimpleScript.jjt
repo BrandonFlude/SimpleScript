@@ -74,10 +74,10 @@ TOKEN [IGNORE_CASE] : /* RESERVED WORDS AND LITERALS */
 | < FALSE: "FALSE" >
 | < EXIT: "EXIT" >
 | < CONST: "CONST" >
-| < OPEN: "OPEN" >
-| < READ: "READ" >
-| < EDIT: "EDIT" >
-| < CLOSE: "CLOSE" >
+| < OPENFILE: "OPENFILE" >
+| < READFILE: "READFILE" >
+| < EDITFILE: "EDITFILE" >
+| < CLOSEFILE: "CLOSEFILE" >
 }
 
 TOKEN : /* LITERALS */
@@ -296,10 +296,10 @@ void value_assignment () :
 void fileexpression() :
 {}
 {
-		  					<OPEN> expression() "." expression() #OpenFile(2)
-		  			| 		<READ> expression() "." expression() #ReadFile(2)
-		  			|  		<EDIT> expression() "." expression() #EditFile(2)
-		  			| 		<CLOSE> expression() "." expression() #CloseFile(2)
+		  					<OPENFILE> expression() "." expression() #OpenFile(2)
+		  			| 		<READFILE> #ReadFile
+		  			|  		<EDITFILE> #EditFile
+		  			| 		<CLOSEFILE> #CloseFile
 }
 
 void ifstatement() #IfStatement :

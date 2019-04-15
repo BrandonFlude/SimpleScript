@@ -1,7 +1,10 @@
 package com.brandonflude.ldi.simplescript.interpreter;
 
+// Imported for file work
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 
 import com.brandonflude.ldi.simplescript.parser.ast.*;
 import com.brandonflude.ldi.simplescript.values.*;
@@ -10,9 +13,8 @@ public class Parser implements SimpleScriptVisitor {
 	
 	// Global file variables
 	private FileReader fileReader;
-	
-	
-	
+	private BufferedReader bufferedReader;
+	String line = null;
 	
 	// Scope display handler
 	private Display scope = new Display();
@@ -474,6 +476,16 @@ public class Parser implements SimpleScriptVisitor {
 	}
 	
 	public Object visit(ASTReadFile node, Object data) {
+		// Read contents of the file opened through OPEN keyword
+        bufferedReader = new BufferedReader(fileReader);
+        try {
+        	while((line = bufferedReader.readLine()) != null) {
+                System.out.println(line);
+            }   
+		} catch(IOException ex) {
+            System.out.println("Unable to read file");	
+        }
+        
 		return node.optimised;
 	}
 	
@@ -482,6 +494,15 @@ public class Parser implements SimpleScriptVisitor {
 	}
 	
 	public Object visit(ASTCloseFile node, Object data) {
+		// Files should always be closed, but we'll let the user do this.
+		try {
+			fileReader.close();
+        	bufferedReader.close();
+		} catch(IOException ex) {
+            System.out.println("Unable to close file");	
+        }
+        
+		System.out.println("Closed file");
 		return node.optimised;
 	}
 }

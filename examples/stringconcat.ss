@@ -7,4 +7,6 @@ write b
 write c
 write a.c.b
 
-open test.txt
+openfile test.txt
+readfile
+closefile

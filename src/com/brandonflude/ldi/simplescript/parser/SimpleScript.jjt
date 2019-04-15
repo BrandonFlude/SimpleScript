@@ -233,6 +233,8 @@ void statement() #Statement :
 				|	write()
 				|	call()
 				|   exit()
+				|   files()
+				
 }
 
 void block() #Block :
@@ -291,10 +293,20 @@ void value_assignment () :
 	  				|   "[" expression() ( "," expression() )* "]"
 }
 
+
+void files() :
+{}
+{
+		  					openfile()
+		  			| 		readfile()
+		  			| 		editfile()
+		  			| 		closefile()
+}
+
 void openfile() #OpenFile :
 {}
 {
-  					<OPEN> identifier()
+  					<OPEN> expression() "." expression()
 }
 
 

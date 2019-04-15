@@ -1,5 +1,8 @@
 package com.brandonflude.ldi.simplescript.interpreter;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+
 import com.brandonflude.ldi.simplescript.parser.ast.*;
 import com.brandonflude.ldi.simplescript.values.*;
 
@@ -450,9 +453,19 @@ public class Parser implements SimpleScriptVisitor {
 	
 	public Object visit(ASTOpenFile node, Object data) {
 		// Open file using standard Java methods
+		String file = getTokenOfChild(node, 0);
+		String extension = getTokenOfChild(node, 1);
 		
+		String fileName = file + "." + extension;
 		
+		try {
+            FileReader fileReader = new FileReader(fileName);      
+        }
 		
+        catch(FileNotFoundException ex) {
+            System.out.println("Unable to open file " + fileName);                
+				
+        }
 		
 		return node.optimised;
 	}

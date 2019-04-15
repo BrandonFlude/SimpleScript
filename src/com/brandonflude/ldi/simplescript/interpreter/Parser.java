@@ -447,4 +447,25 @@ public class Parser implements SimpleScriptVisitor {
 		System.exit(0);
 		return node.optimised;
 	}
+	
+	public Object visit(ASTOpenFile node, Object data) {
+		// Open file using standard Java methods
+		
+		
+		
+		
+		return node.optimised;
+	}
+	
+	public Object visit(ASTReadFile node, Object data) {
+		return node.optimised;
+	}
+	
+	public Object visit(ASTEditFile node, Object data) {
+		return node.optimised;
+	}
+	
+	public Object visit(ASTCloseFile node, Object data) {
+		return node.optimised;
+	}
 }

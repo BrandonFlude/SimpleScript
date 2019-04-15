@@ -74,6 +74,10 @@ TOKEN [IGNORE_CASE] : /* RESERVED WORDS AND LITERALS */
 | < FALSE: "FALSE" >
 | < EXIT: "EXIT" >
 | < CONST: "CONST" >
+| < OPEN: "OPEN" >
+| < READ: "READ" >
+| < EDIT: "EDIT" >
+| < CLOSE: "CLOSE" >
 }
 
 TOKEN : /* LITERALS */
@@ -285,6 +289,31 @@ void value_assignment () :
 {
 	  					expression()
 	  				|   "[" expression() ( "," expression() )* "]"
+}
+
+void openfile() #OpenFile :
+{}
+{
+  					<OPEN> identifier()
+}
+
+
+void readfile() #ReadFile :
+{}
+{
+  					<READ> identifier()
+}
+
+void editfile() #EditFile :
+{}
+{
+  					<EDIT> identifier()
+}
+
+void closefile() #CloseFile :
+{}
+{
+  					<CLOSE> identifier()
 }
 
 

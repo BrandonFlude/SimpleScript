@@ -274,4 +274,24 @@ public class ParserDebugger implements SimpleScriptVisitor {
 		dump(node, data);
 		return data;
 	}
+
+	public Object visit(ASTOpenFile node, Object data) {
+		dump(node, data);
+		return data;
+	}
+
+	public Object visit(ASTReadFile node, Object data) {
+		dump(node, data);
+		return data;
+	}
+
+	public Object visit(ASTEditFile node, Object data) {
+		dump(node, data);
+		return data;
+	}
+
+	public Object visit(ASTCloseFile node, Object data) {
+		dump(node, data);
+		return data;
+	}
 }

@@ -56,3 +56,8 @@
 /ASTDoubleA.java
 /ASTAddSub1.java
 /ASTExit.java
+/ASTReadFile.java
+/ASTOpenFile.java
+/ASTWriteFile.java
+/ASTCloseFile.java
+/ASTEditFile.java

@@ -8,6 +8,12 @@ import com.brandonflude.ldi.simplescript.values.*;
 
 public class Parser implements SimpleScriptVisitor {
 	
+	// Global file variables
+	private FileReader fileReader;
+	
+	
+	
+	
 	// Scope display handler
 	private Display scope = new Display();
 	
@@ -459,12 +465,9 @@ public class Parser implements SimpleScriptVisitor {
 		String fileName = file + "." + extension;
 		
 		try {
-            FileReader fileReader = new FileReader(fileName);      
-        }
-		
-        catch(FileNotFoundException ex) {
-            System.out.println("Unable to open file " + fileName);                
-				
+            fileReader = new FileReader(fileName);
+		} catch(FileNotFoundException ex) {
+            System.out.println("Unable to open file " + fileName);	
         }
 		
 		return node.optimised;

@@ -233,7 +233,7 @@ void statement() #Statement :
 				|	write()
 				|	call()
 				|   exit()
-				|   files()
+				|   fileexpression()
 				
 }
 
@@ -293,41 +293,14 @@ void value_assignment () :
 	  				|   "[" expression() ( "," expression() )* "]"
 }
 
-
-void files() :
+void fileexpression() :
 {}
 {
-		  					openfile()
-		  			| 		readfile()
-		  			| 		editfile()
-		  			| 		closefile()
+		  					<OPEN> expression() "." expression() #OpenFile(2)
+		  			| 		<READ> expression() "." expression() #ReadFile(2)
+		  			|  		<EDIT> expression() "." expression() #EditFile(2)
+		  			| 		<CLOSE> expression() "." expression() #CloseFile(2)
 }
-
-void openfile() #OpenFile :
-{}
-{
-  					<OPEN> expression() "." expression()
-}
-
-
-void readfile() #ReadFile :
-{}
-{
-  					<READ> identifier()
-}
-
-void editfile() #EditFile :
-{}
-{
-  					<EDIT> identifier()
-}
-
-void closefile() #CloseFile :
-{}
-{
-  					<CLOSE> identifier()
-}
-
 
 void ifstatement() #IfStatement :
 {}

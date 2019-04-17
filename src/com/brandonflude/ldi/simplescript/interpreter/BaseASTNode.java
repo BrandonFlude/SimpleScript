@@ -29,6 +29,9 @@ public class BaseASTNode {
 	// Set an assignment to indicate whether it is an array or not
 	public boolean assignmentIsArray = false;
 	
+	// Set an assignment to indicate whether it is an constant or not
+	public boolean assignmentIsConst = false;
+	
 	// Set a write statement to show it is being concatenated with another value when printed out
 	// public boolean writeIsConcatenation = false; <- Not currently needed
 	

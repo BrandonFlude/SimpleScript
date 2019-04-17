@@ -3,13 +3,12 @@ package com.brandonflude.ldi.simplescript.interpreter;
 import com.brandonflude.ldi.simplescript.values.Value;
 
 /** A display manages run-time access to variable and parameter scope where
- * functions may be nested.
+ *  functions may be nested.
  */ 
 class Display {
 
 	private final int maximumFunctionNesting = 64;
 	private FunctionInvocation[] display = new FunctionInvocation[maximumFunctionNesting];
-	//private ClassInvocation[] classdisplay = new ClassInvocation[maximumFunctionNesting];
 	private int currentLevel;
 
 	/** Reference to a slot. */
@@ -54,21 +53,6 @@ class Display {
 		return v;
 	}
 	
-	/** Execute a function in its scope, using a specified parser. */
-	/*
-	Value execute(ClassInvocation clss, Parser p) {
-		int changeLevel = clss.getLevel();
-		ClassInvocation oldContext = classdisplay[changeLevel];
-		int oldLevel = currentLevel;
-		classdisplay[changeLevel] = clss;
-		currentLevel = changeLevel;
-		Value v = classdisplay[currentLevel].execute(p);
-		classdisplay[changeLevel] = oldContext;
-		currentLevel = oldLevel;
-		return v;
-	}
-	*/
-	
 	/** Get the current scope nesting level. */
 	int getLevel() {
 		return currentLevel;
@@ -103,20 +87,6 @@ class Display {
 		return null;
 	}
 	
-	/** Find a class.  Return null if it doesn't exist. */
-	/*
-	ClassDefinition findClass(String name) {
-		int level = currentLevel;
-		while (level >= 0) {
-			ClassDefinition definition = classdisplay[level].findClass(name);
-			if (definition != null)
-				return definition;
-			level--;
-		}
-		return null;
-	}
-	*/
-
 	/** Find a function in the current level.  Return null if it doesn't exist. */
 	FunctionDefinition findFunctionInCurrentLevel(String name) {
 		return display[currentLevel].findFunction(name);

@@ -233,7 +233,7 @@ void statement() #Statement :
 				|	write()
 				|	call()
 				|   exit()
-				|   fileexpression()
+				|   file_commands()
 				
 }
 
@@ -259,7 +259,7 @@ void fndef() #FnDef :
 {}
 {
 					<FUNC> identifier() parmlist() "{"
-						// Support for deprecation
+						// Support for deprecation, fill body with new func.
 						[ "@" <USE> fnUse() {jjtThis.fnIsDeprecated = true;} ]
 						fnbody()
 						[ <RET> returnexpr() {jjtThis.fnHasReturn = true;} ] 
@@ -281,6 +281,7 @@ void fnUse() :
 void assignment() #Assignment :
 {}
 {
+					[ <CONST> { jjtThis.assignmentIsConst = true; } ]
 					identifier()
 					[ "[]" { jjtThis.assignmentIsArray = true; } ]
 					":" value_assignment()
@@ -293,14 +294,15 @@ void value_assignment () :
 	  				|   "[" expression() ( "," expression() )* "]"
 }
 
-void fileexpression() :
+void file_commands() :
 {}
 {
-		  					<OPENFILE> expression() "." expression() #OpenFile(2)
+		  					<OPENFILE> file_expression() #OpenFile(2)
 		  			| 		<READFILE> #ReadFile // <- Maybe add a [optional] file to close the old one and read new one
 		  			|  		<EDITFILE> #EditFile // <- Maybe add a [optional] file to close the old one and read new one
 		  			| 		<CLOSEFILE> #CloseFile
 }
+
 
 void ifstatement() #IfStatement :
 {}
@@ -432,6 +434,14 @@ void primary_expression() :
                             | dereference()
                             | "(" expression() ")"
 }
+
+void file_expression() :
+{}
+{
+  							// Fix this to eventually allow filepaths (/<dir>/)*
+							expression() "." expression()
+}
+
 
 void fn_invoke() #FnInvoke :
 {}

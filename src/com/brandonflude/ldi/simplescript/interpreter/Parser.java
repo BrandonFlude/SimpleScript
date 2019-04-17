@@ -18,6 +18,7 @@ public class Parser implements SimpleScriptVisitor {
 	
 	// Scope display handler
 	private Display scope = new Display();
+	private Display immutables = new Display();
 	
 	// Get the ith child of a given node.
 	private static SimpleNode getChild(SimpleNode node, int childIndex) {
@@ -278,7 +279,15 @@ public class Parser implements SimpleScriptVisitor {
 			String name = node.tokenValue;
 			reference = scope.findReference(name);
 			if (reference == null)
-				throw new ExceptionSemantic("Variable or parameter " + name + " is undefined.");
+			{
+				// Look in constants, and fetch the value from there instead
+				if(immutables.findReference(name) != null)
+				{
+					reference = immutables.findReference(name);
+				}
+				else
+					throw new ExceptionSemantic("Variable or parameter " + name + " is undefined.");
+			}
 			node.optimised = reference;
 		} else
 			reference = (Display.Reference)node.optimised;
@@ -289,11 +298,10 @@ public class Parser implements SimpleScriptVisitor {
 	public Object visit(ASTAssignment node, Object data) {
 		Display.Reference reference;
 		if (node.optimised == null) {
-			String name = getTokenOfChild(node, 0);
-			reference = scope.findReference(name);
 			
-			// If has [], then array.
-			// *TREAT ME DIFFERENTLY!*
+			String name = getTokenOfChild(node, 0);
+			
+			// Arrays are immutable in SimpleScript
 			if(node.assignmentIsArray) 
 			{
 				// Count number of nodes to calculate how much is in the array
@@ -303,11 +311,28 @@ public class Parser implements SimpleScriptVisitor {
 				throw new ExceptionSemantic("Arrays are not yet implemented, but it has " + numOfChildren + " values");
 			}
 			
-			if (reference == null)
-				reference = scope.defineVariable(name);
-			node.optimised = reference;
-		} else
+			if(node.assignmentIsConst) 
+			{
+				// Add this to a separate scope instead, perhaps one named constants
+				reference = immutables.findReference(name);
+				if(reference == null)
+				{
+					reference = immutables.defineVariable(name);
+				}
+				node.optimised = reference;
+			}
+			else
+			{	
+				reference = scope.findReference(name);
+				if (reference == null)
+				{
+					reference = scope.defineVariable(name);
+				}
+				node.optimised = reference;
+			}		
+		} else {
 			reference = (Display.Reference)node.optimised;
+		}
 		reference.setValue(doChild(node, 1));
 		return data;
 	}
@@ -369,7 +394,13 @@ public class Parser implements SimpleScriptVisitor {
 			String name = getTokenOfChild(node, 0);
 			reference = scope.findReference(name);	
 			if (reference == null) {
-				throw new ExceptionSemantic("Variable: " + name + " was not found.");
+				// Look in constants, and then throw an error
+				if(immutables.findReference(name) != null)
+				{
+					throw new ExceptionSemantic("Variable: " + name + " cannot be changed.");
+				}
+				else
+					throw new ExceptionSemantic("Variable: " + name + " was not found.");
 			}
 		} else {
 			reference = (Display.Reference)node.optimised;
@@ -385,7 +416,13 @@ public class Parser implements SimpleScriptVisitor {
 			String name = getTokenOfChild(node, 0);
 			reference = scope.findReference(name);	
 			if (reference == null) {
-				throw new ExceptionSemantic("Variable: " + name + " was not found.");
+				// Look in constants, and then throw an error
+				if(immutables.findReference(name) != null)
+				{
+					throw new ExceptionSemantic("Variable: " + name + " cannot be changed.");
+				}
+				else
+					throw new ExceptionSemantic("Variable: " + name + " was not found.");
 			}
 		} else {
 			reference = (Display.Reference)node.optimised;
@@ -463,13 +500,13 @@ public class Parser implements SimpleScriptVisitor {
 		// Open file using standard Java methods
 		String file = getTokenOfChild(node, 0);
 		String extension = getTokenOfChild(node, 1);
-		
+		// Could be shorter in terms of code, but cleaner this way
 		String fileName = file + "." + extension;
 		
 		try {
             fileReader = new FileReader(fileName);
 		} catch(FileNotFoundException ex) {
-            System.out.println("Unable to open file " + fileName);	
+			throw new ExceptionSemantic("Unable to open file" + fileName);
         }
 		
 		return node.optimised;
@@ -484,6 +521,7 @@ public class Parser implements SimpleScriptVisitor {
             }   
 		} catch(IOException ex) {
             System.out.println("Unable to read file");	
+            throw new ExceptionSemantic("Unable to read a file. Did you OPEN it yet?");
         }
         
 		return node.optimised;
@@ -499,7 +537,7 @@ public class Parser implements SimpleScriptVisitor {
 			fileReader.close();
         	bufferedReader.close();
 		} catch(IOException ex) {
-            System.out.println("Unable to close file");	
+			throw new ExceptionSemantic("Unable to close a file.");
         }
 		return node.optimised;
 	}

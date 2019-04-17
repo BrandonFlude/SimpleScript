@@ -1,4 +1,4 @@
-a: "Hello"
+const a: "Hello"
 b: "World"
 c: " "
 

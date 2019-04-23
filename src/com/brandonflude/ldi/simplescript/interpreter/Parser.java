@@ -297,8 +297,9 @@ public class Parser implements SimpleScriptVisitor {
 	// Execute an assignment statement.
 	public Object visit(ASTAssignment node, Object data) {
 		Display.Reference reference;
+		boolean allow_set = false;
+		
 		if (node.optimised == null) {
-			
 			String name = getTokenOfChild(node, 0);
 			
 			// Arrays are immutable in SimpleScript
@@ -318,6 +319,8 @@ public class Parser implements SimpleScriptVisitor {
 				if(reference == null)
 				{
 					reference = immutables.defineVariable(name);
+					// Set flag to allow this to be set first time around.
+					allow_set = true;
 				}
 				node.optimised = reference;
 			}
@@ -329,11 +332,20 @@ public class Parser implements SimpleScriptVisitor {
 					reference = scope.defineVariable(name);
 				}
 				node.optimised = reference;
-			}		
+			}	
 		} else {
 			reference = (Display.Reference)node.optimised;
 		}
-		reference.setValue(doChild(node, 1));
+		
+		// Check here somehow if reference is to an array, const or normal var
+		if (immutables.findReference(getTokenOfChild(node, 0)) == null || allow_set == true)
+		{
+			reference.setValue(doChild(node, 1));
+		}
+		else
+		{
+			throw new ExceptionSemantic("You cannot modify a constant.");
+		}
 		return data;
 	}
 

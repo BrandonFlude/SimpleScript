@@ -16,3 +16,6 @@ java -classpath ./bin SimpleScript < examples/deprecatedfuncs.ss
 
 echo "=== String Concatenation ==="
 java -classpath ./bin SimpleScript < examples/stringconcat.ss
+
+echo "=== Reading Files ==="
+java -classpath ./bin SimpleScript < examples/files.ss

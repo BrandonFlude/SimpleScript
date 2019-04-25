@@ -265,7 +265,17 @@ public class Parser implements SimpleScriptVisitor {
 		// Loop through all the children, appending to a string as we go
 		for(int c = 0; c < numOfChildren; c++)
 		{
-			stringBuilder = stringBuilder + doChild(node, c).toString();  
+			// Check whether the value is in [] or not, the node should be set as writeIsFromArray
+			if(node.writeIsFromArray == true)
+			{
+				// Skip the first child (array name) and use 2nd child as the value to fetch from array definition
+				stringBuilder = stringBuilder + "R";
+				break;
+			}
+			else
+			{
+				stringBuilder = stringBuilder + doChild(node, c).toString();  
+			}	
 		}
 
 		System.out.println(stringBuilder);
@@ -308,8 +318,9 @@ public class Parser implements SimpleScriptVisitor {
 				// Count number of nodes to calculate how much is in the array
 				int numOfChildren = node.jjtGetNumChildren();
 				numOfChildren--; // Take 1 away as that is the variable name
-			
-				throw new ExceptionSemantic("Arrays are not yet implemented, but it has " + numOfChildren + " values");
+				
+				System.out.println("Arrays are not yet implemented, but it has " + numOfChildren + " values");
+				//throw new ExceptionSemantic("Arrays are not yet implemented, but it has " + numOfChildren + " values");
 			}
 			
 			if(node.assignmentIsConst) 
@@ -527,9 +538,24 @@ public class Parser implements SimpleScriptVisitor {
 	public Object visit(ASTReadFile node, Object data) {
 		// Read contents of the file opened through OPEN keyword
         bufferedReader = new BufferedReader(fileReader);
+        int i = 1;
+        
         try {
         	while((line = bufferedReader.readLine()) != null) {
-                System.out.println(line);
+        		if(node.readLineFromFile == true)
+        		{
+        			// Defined here to stop 'null' when reading the whole file
+        			int lineToRead = Integer.parseInt(getTokenOfChild(node, 0));
+        			if(i == lineToRead)
+        			{
+        				System.out.println(line);
+        			}
+        			i++;
+        		}
+        		else
+        		{
+        			System.out.println(line);
+        		}   
             }   
 		} catch(IOException ex) {
             System.out.println("Unable to read file");	
@@ -540,7 +566,8 @@ public class Parser implements SimpleScriptVisitor {
 	}
 	
 	public Object visit(ASTEditFile node, Object data) {
-		return node.optimised;
+		throw new ExceptionSemantic("Editting files is not currently implemented.");
+		//return node.optimised;
 	}
 	
 	public Object visit(ASTCloseFile node, Object data) {

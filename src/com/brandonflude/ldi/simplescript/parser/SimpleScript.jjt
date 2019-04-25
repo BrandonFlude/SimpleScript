@@ -298,7 +298,7 @@ void file_commands() :
 {}
 {
 		  					<OPENFILE> file_expression() #OpenFile(2)
-		  			| 		<READFILE> #ReadFile // <- Maybe add a [optional] file to close the old one and read new one
+		  			| 		<READFILE> [ "(" integer() ")" {  jjtThis.readLineFromFile = true; } ] #ReadFile  // Specify the line from the file to read
 		  			|  		<EDITFILE> #EditFile // <- Maybe add a [optional] file to close the old one and read new one
 		  			| 		<CLOSEFILE> #CloseFile
 }
@@ -336,8 +336,8 @@ void write() #Write :
 {}
 {
 
-					<WRITE> expression() ( "." expression() )*
-					
+					LOOKAHEAD(2) <WRITE> expression() [ "[" integer() "]" {jjtThis.writeIsFromArray = true;} ]
+				| 	<WRITE> expression() ( "+" expression() )*
 }
 
 void call() #Call :

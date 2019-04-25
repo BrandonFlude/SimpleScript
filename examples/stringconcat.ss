@@ -1,12 +1,9 @@
 const a: "Hello"
-b: "World"
-c: " "
+const b: "World"
+const c: " "
 
 write a
 write b
 write c
-write a.c.b
-
-openfile test.txt
-readfile
-closefile
+// Should print Hello World
+write a+c+b

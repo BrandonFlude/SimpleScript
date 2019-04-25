@@ -32,9 +32,14 @@ public class BaseASTNode {
 	// Set an assignment to indicate whether it is an constant or not
 	public boolean assignmentIsConst = false;
 	
-	// Set a write statement to show it is being concatenated with another value when printed out
-	// public boolean writeIsConcatenation = false; <- Not currently needed
+	// Set a write statement to indicate whether the value is from an array
+	public boolean writeIsFromArray = false;
 	
+	// Set a readfile statement to only read one line
+	public boolean readLineFromFile = false;
+	
+	/*
 	public boolean isPlusPlus = false;
 	public boolean isMinusMinus = false;
+	*/
 }

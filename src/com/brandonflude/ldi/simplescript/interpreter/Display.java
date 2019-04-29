@@ -38,12 +38,11 @@ class Display {
 	/** Reference to a slot for arrays. */
 	class ArrayReference {
 		private int displayDepth;
-		private int slotNumber;
+		// No need for a slot number as we always create a new array and start at 0.
 		
 		/** Ctor */
-		public ArrayReference(int currentLevel, int slot) {
+		public ArrayReference(int currentLevel) {
 			displayDepth = currentLevel;
-			slotNumber = slot;
 		}
 		
 		/** Set value pointed to by this reference. */
@@ -103,7 +102,7 @@ class Display {
 			} else {
 				String arrayName = arrays[level].getName();
 				if (arrayName.equals(name)) {
-					return new ArrayReference(level, 0);
+					return new ArrayReference(level);
 				}
 			}
 			level--;
@@ -119,7 +118,7 @@ class Display {
 	/** Create a array in the current level and return its Reference. */
 	ArrayReference defineArray(String name) {
 		arrays[arrayCounter] = new ArrayInvocation(name);
-		ArrayReference arrayRef = new ArrayReference(arrayCounter, 0);
+		ArrayReference arrayRef = new ArrayReference(arrayCounter);
 		// Ready it for the next array
 		arrayCounter++;
 		return arrayRef;

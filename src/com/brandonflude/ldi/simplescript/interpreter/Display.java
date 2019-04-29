@@ -9,7 +9,7 @@ class Display {
 
 	private final int maximumFunctionNesting = 64;
 	private FunctionInvocation[] display = new FunctionInvocation[maximumFunctionNesting];
-	private ArrayInvocation[] arrays = new ArrayInvocation[maximumFunctionNesting];
+	private ArrayInvocation[] arrays = new ArrayInvocation[64];
 	private int currentLevel;
 	private int arrayCounter = 0;
 

@@ -397,6 +397,7 @@ public class Parser implements SimpleScriptVisitor {
 			}
 			else
 			{
+				// Case for setting constants on creation
 				reference.setValue(doChild(node, 1));
 			}	
 		}

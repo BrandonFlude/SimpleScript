@@ -336,8 +336,15 @@ void write() #Write :
 {}
 {
 
-					LOOKAHEAD(2) <WRITE> expression() [ "[" integer() "]" {jjtThis.writeIsFromArray = true;} ]
+					LOOKAHEAD(2) <WRITE> expression() [ "[" arrayValue() "]" {jjtThis.writeIsFromArray = true;} ]
 				| 	<WRITE> expression() ( "+" expression() )*
+}
+
+void arrayValue() :
+{}
+{
+							integer()
+					| 		identifier()
 }
 
 void call() #Call :

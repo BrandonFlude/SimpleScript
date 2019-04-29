@@ -1,5 +1,8 @@
 integerNumber: 3
-integerArray[]: [2, 3, 4] 
+integerArray[]: [1, 2, 3] 
 
-write integerArray[0]
-write integerNumber
+for(i: 0; i LESS THAN 3; i++)
+{
+	write integerArray[i]
+}
+

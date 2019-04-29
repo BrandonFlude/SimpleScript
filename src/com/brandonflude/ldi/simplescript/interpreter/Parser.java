@@ -258,6 +258,9 @@ public class Parser implements SimpleScriptVisitor {
 	
 	// Execute the WRITE statement
 	public Object visit(ASTWrite node, Object data) {
+		Display.ArrayReference arrayReference;
+		Display.Reference reference;
+		
 		// Find number of nodes
 		int numOfChildren = node.jjtGetNumChildren();
 		String stringBuilder = "";
@@ -268,9 +271,36 @@ public class Parser implements SimpleScriptVisitor {
 			// Check whether the value is in [] or not, the node should be set as writeIsFromArray
 			if(node.writeIsFromArray == true)
 			{
-				// Skip the first child (array name) and use 2nd child as the value to fetch from array definition
-				stringBuilder = stringBuilder + "R";
-				break;
+				int indexToFind;
+				String name = getTokenOfChild(node, 0);
+
+				if(immutables.findArray(name) != null)
+				{
+					arrayReference = immutables.findArray(name);
+				}
+				else
+					throw new ExceptionSemantic("Variable or parameter " + name + " is undefined.");
+				
+				// If it's a number, convert - else find the variable user is using.
+				if(getTokenOfChild(node, 1).matches("^[0-9]"))
+				{
+					indexToFind = Integer.parseInt(getTokenOfChild(node, 1));
+				}
+				else
+				{
+					String paramName = getTokenOfChild(node, 1);
+					reference = scope.findReference(paramName);	
+					if (reference == null) {
+						// Look in constants, and then throw an error
+						if(immutables.findReference(paramName) != null)
+						{
+							throw new ExceptionSemantic("Variable or parameter " + paramName + " is undefined.");
+						}
+					}
+					indexToFind = reference.getValue().intValue();
+				}
+				
+				stringBuilder = arrayReference.getValue(indexToFind).toString();
 			}
 			else
 			{
@@ -307,6 +337,7 @@ public class Parser implements SimpleScriptVisitor {
 	// Execute an assignment statement.
 	public Object visit(ASTAssignment node, Object data) {
 		Display.Reference reference;
+		Display.ArrayReference arrayReference = null;
 		boolean allow_set = false;
 		
 		if (node.optimised == null) {
@@ -314,13 +345,16 @@ public class Parser implements SimpleScriptVisitor {
 			
 			// Arrays are immutable in SimpleScript
 			if(node.assignmentIsArray) 
-			{
-				// Count number of nodes to calculate how much is in the array
-				int numOfChildren = node.jjtGetNumChildren();
-				numOfChildren--; // Take 1 away as that is the variable name
-				
-				System.out.println("Arrays are not yet implemented, but it has " + numOfChildren + " values");
-				//throw new ExceptionSemantic("Arrays are not yet implemented, but it has " + numOfChildren + " values");
+			{				
+				arrayReference = immutables.findArray(name);
+				if(arrayReference == null)
+				{
+					// Create it
+					arrayReference = immutables.defineArray(name);
+					// Set flag to allow this to be set first time around.
+					allow_set = true;
+				}
+				node.optimised = arrayReference;
 			}
 			
 			if(node.assignmentIsConst) 
@@ -351,7 +385,18 @@ public class Parser implements SimpleScriptVisitor {
 		// Check here somehow if reference is to an array, const or normal var
 		if (immutables.findReference(getTokenOfChild(node, 0)) == null || allow_set == true)
 		{
-			reference.setValue(doChild(node, 1));
+			if(node.assignmentIsArray)
+			{
+				// Loop through children and do child
+				for (int i = 1; i < node.jjtGetNumChildren(); i++)
+				{
+					arrayReference.setValue(doChild(node, i), i - 1);
+				}
+			}
+			else
+			{
+				reference.setValue(doChild(node, 1));
+			}	
 		}
 		else
 		{

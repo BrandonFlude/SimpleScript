@@ -9,7 +9,9 @@ class Display {
 
 	private final int maximumFunctionNesting = 64;
 	private FunctionInvocation[] display = new FunctionInvocation[maximumFunctionNesting];
+	private ArrayInvocation[] arrays = new ArrayInvocation[maximumFunctionNesting];
 	private int currentLevel;
+	private int arrayCounter = 0;
 
 	/** Reference to a slot. */
 	class Reference {
@@ -30,6 +32,28 @@ class Display {
 		/** Get value pointed to by this reference. */
 		Value getValue() {
 			return display[displayDepth].getValue(slotNumber);
+		}
+	}
+	
+	/** Reference to a slot for arrays. */
+	class ArrayReference {
+		private int displayDepth;
+		private int slotNumber;
+		
+		/** Ctor */
+		public ArrayReference(int currentLevel, int slot) {
+			displayDepth = currentLevel;
+			slotNumber = slot;
+		}
+		
+		/** Set value pointed to by this reference. */
+		void setValue(Value v, int position) {
+			arrays[displayDepth].setValue(position, v);
+		}
+		
+		/** Get value pointed to by this reference. */
+		Value getValue(int index) {
+			return arrays[displayDepth].getValue(index);
 		}
 	}
 	
@@ -69,10 +93,36 @@ class Display {
 		}
 		return null;		
 	}
+	
+	/** Return a Reference to an array.  Return null if it doesn't exist. */
+	ArrayReference findArray(String name) {
+		int level = currentLevel;
+		while (level >=0) {
+			if (arrays[level] == null) {
+				// Do nothing
+			} else {
+				String arrayName = arrays[level].getName();
+				if (arrayName.equals(name)) {
+					return new ArrayReference(level, 0);
+				}
+			}
+			level--;
+		}
+		return null;
+	}
 
 	/** Create a variable in the current level and return its Reference. */
 	Reference defineVariable(String name) {
 		return new Reference(currentLevel, display[currentLevel].defineVariable(name));
+	}
+	
+	/** Create a array in the current level and return its Reference. */
+	ArrayReference defineArray(String name) {
+		arrays[arrayCounter] = new ArrayInvocation(name);
+		ArrayReference arrayRef = new ArrayReference(arrayCounter, 0);
+		// Ready it for the next one
+		arrayCounter++;
+		return arrayRef;
 	}
 
 	/** Find a function.  Return null if it doesn't exist. */

@@ -78,6 +78,5 @@ class FunctionInvocation {
 	/** Find a function definition.  Return null if it doesn't exist. */
 	FunctionDefinition findFunction(String name) {
 		return function.findFunction(name);
-	}
-	
+	}	
 }

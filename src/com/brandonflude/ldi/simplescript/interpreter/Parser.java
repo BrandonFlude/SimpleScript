@@ -279,7 +279,9 @@ public class Parser implements SimpleScriptVisitor {
 					arrayReference = immutables.findArray(name);
 				}
 				else
+				{
 					throw new ExceptionSemantic("Variable or parameter " + name + " is undefined.");
+				}
 				
 				// If it's a number, convert - else find the variable user is using.
 				if(getTokenOfChild(node, 1).matches("^[0-9]"))
@@ -293,7 +295,7 @@ public class Parser implements SimpleScriptVisitor {
 					if (reference == null) {
 						// Look in constants, and then throw an error
 						if(immutables.findReference(paramName) != null)
-						{
+						{	
 							throw new ExceptionSemantic("Variable or parameter " + paramName + " is undefined.");
 						}
 					}

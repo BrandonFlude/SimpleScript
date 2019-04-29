@@ -96,7 +96,7 @@ class Display {
 	
 	/** Return a Reference to an array.  Return null if it doesn't exist. */
 	ArrayReference findArray(String name) {
-		int level = currentLevel;
+		int level = arrayCounter;
 		while (level >=0) {
 			if (arrays[level] == null) {
 				// Do nothing
@@ -120,7 +120,7 @@ class Display {
 	ArrayReference defineArray(String name) {
 		arrays[arrayCounter] = new ArrayInvocation(name);
 		ArrayReference arrayRef = new ArrayReference(arrayCounter, 0);
-		// Ready it for the next one
+		// Ready it for the next array
 		arrayCounter++;
 		return arrayRef;
 	}

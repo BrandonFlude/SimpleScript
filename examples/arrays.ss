@@ -1,16 +1,19 @@
-integerArray[]: [1, 2, 3]
-spacer: " "
-stringArray[]: ["hello", "the", "world"]
+integerArray[]: [2, 1, 3, 4]
+stringArray[]: ["hello", "to the", "world", "test"]
+j: sizeof integerArray
 
-for(i: 0; i LESS THAN 3; i++)
+
+// Implement size of array too for for loop
+
+for(i: 0; i LESS THAN j; i++)
 {
 	write integerArray[i]
 	write stringArray[i]
 }
 
+sort integerArray
 
-integerArray[]: [1, 2, 3, 4, 5]
-for(i: 0; i LESS THAN 5; i++)
+for(i: 0; i LESS THAN j; i++)
 {
 	write integerArray[i]
 }

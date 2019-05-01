@@ -9,7 +9,7 @@ class Display {
 
 	private final int maximumFunctionNesting = 64;
 	private FunctionInvocation[] display = new FunctionInvocation[maximumFunctionNesting];
-	private ArrayInvocation[] arrays = new ArrayInvocation[64];
+	private ArrayInvocation[] arrays = new ArrayInvocation[128]; // Not entirely sure what this number is for
 	private int currentLevel;
 	private int arrayCounter = 0;
 
@@ -54,6 +54,10 @@ class Display {
 		Value getValue(int index) {
 			return arrays[displayDepth].getValue(index);
 		}
+		
+		int getSize(String name) {
+			return arrays[displayDepth].getSize(name);
+		}
 	}
 	
 	/** Ctor */
@@ -97,9 +101,7 @@ class Display {
 	ArrayReference findArray(String name) {
 		int level = arrayCounter;
 		while (level >=0) {
-			if (arrays[level] == null) {
-				// Do nothing
-			} else {
+			if (arrays[level] != null) {
 				String arrayName = arrays[level].getName();
 				if (arrayName.equals(name)) {
 					return new ArrayReference(level);

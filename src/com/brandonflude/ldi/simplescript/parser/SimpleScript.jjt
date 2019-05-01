@@ -78,6 +78,8 @@ TOKEN [IGNORE_CASE] : /* RESERVED WORDS AND LITERALS */
 | < READFILE: "READFILE" >
 | < EDITFILE: "EDITFILE" >
 | < CLOSEFILE: "CLOSEFILE" >
+| < SORT: "SORT" >
+| < SIZEOF: "SIZEOF" >
 }
 
 TOKEN : /* LITERALS */
@@ -234,6 +236,8 @@ void statement() #Statement :
 				|	call()
 				|   exit()
 				|   file_commands()
+				|   sort()
+				|   sizeof()
 				
 }
 
@@ -278,6 +282,19 @@ void fnUse() :
 					identifier()
 }
 
+void sort() #Sort:
+{}
+{
+					<SORT> expression() // Sort an array
+}
+
+void sizeof() #SizeOf:
+{}
+{
+					<SIZEOF> expression() // Find out the size of an array
+}
+  
+
 void assignment() #Assignment :
 {}
 {
@@ -292,6 +309,7 @@ void value_assignment () :
 {
 	  					expression()
 	  				|   "[" expression() ( "," expression() )* "]"
+	  				|   sizeof() // Allow variables to be set to sizeof arrays
 }
 
 void file_commands() :
@@ -299,7 +317,7 @@ void file_commands() :
 {
 		  					<OPENFILE> file_expression() #OpenFile(2)
 		  			| 		<READFILE> [ "(" integer() ")" {  jjtThis.readLineFromFile = true; } ] #ReadFile  // Specify the line from the file to read
-		  			|  		<EDITFILE> #EditFile // <- Maybe add a [optional] file to close the old one and read new one
+		  			|  		<EDITFILE> expression() #EditFile // Edit the file by adding the line of text written
 		  			| 		<CLOSEFILE> #CloseFile
 }
 

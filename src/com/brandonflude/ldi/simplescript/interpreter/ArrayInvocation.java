@@ -37,4 +37,8 @@ class ArrayInvocation {
 	Value getValue(int slotNumber) {
 		return values.get(slotNumber);
 	}	
+	
+	int getSize(String name) {
+		return values.size();
+	}
 }

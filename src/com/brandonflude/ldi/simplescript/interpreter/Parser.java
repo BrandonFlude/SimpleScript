@@ -136,11 +136,6 @@ public class Parser implements SimpleScriptVisitor {
 		return data;
 	}
 	
-	// Function @USE Identifier
-	public Object visit(ASTFnUse node, Object data) {
-		return doChildren(node, data);
-	}
-	
 	// Function body
 	public Object visit(ASTFnBody node, Object data) {
 		return doChildren(node, data);
@@ -614,8 +609,9 @@ public class Parser implements SimpleScriptVisitor {
 	}
 	
 	public Object visit(ASTEditFile node, Object data) {
-		throw new ExceptionSemantic("Editting files is not currently implemented.");
-		//return node.optimised;
+		String text = getTokenOfChild(node, 0);
+		System.out.println("Would be adding: " + text);
+		return node.optimised;
 	}
 	
 	public Object visit(ASTCloseFile node, Object data) {
@@ -626,6 +622,41 @@ public class Parser implements SimpleScriptVisitor {
 		} catch(IOException ex) {
 			throw new ExceptionSemantic("Unable to close a file.");
         }
+		return node.optimised;
+	}
+	
+	public Object visit(ASTSort node, Object data) {
+		String name = getTokenOfChild(node, 0);
+		if(immutables.findArray(name) != null)
+		{
+			Display.ArrayReference arrayReference = immutables.findArray(name);
+			// arrayReference contains the array
+			
+			// Use java.sort() to sort this array now
+			
+		}
+		else
+		{
+			throw new ExceptionSemantic("Variable or parameter " + name + " is undefined.");
+		}
+		
+		return node.optimised;
+	}
+	
+	public Object visit(ASTSizeOf node, Object data) {
+		String name = getTokenOfChild(node, 0);
+		if(immutables.findArray(name) != null)
+		{
+			Display.ArrayReference arrayReference = immutables.findArray(name);
+			int arraySize = arrayReference.getSize(name);
+			
+			// Set node to the value of this, allows for j: sizeof array
+			node.optimised = new ValueInteger(arraySize);
+		}
+		else
+		{
+			throw new ExceptionSemantic("Variable or parameter " + name + " is undefined.");
+		}
 		return node.optimised;
 	}
 }

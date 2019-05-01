@@ -1,13 +1,16 @@
 integerArray[]: [2, 1, 3, 4]
-stringArray[]: ["hello", "to the", "world", "test"]
+stringArray[]: ["hello", "world"]
 j: sizeof integerArray
+k: sizeof stringArray
 
-
-// Implement size of array too for for loop
 
 for(i: 0; i LESS THAN j; i++)
 {
 	write integerArray[i]
+}
+
+for(i: 0; i LESS THAN k; i++)
+{
 	write stringArray[i]
 }
 

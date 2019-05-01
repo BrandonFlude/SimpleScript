@@ -2,8 +2,10 @@ package com.brandonflude.ldi.simplescript.interpreter;
 
 // Imported for file work
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import com.brandonflude.ldi.simplescript.parser.ast.*;
@@ -14,6 +16,7 @@ public class Parser implements SimpleScriptVisitor {
 	// Global file variables
 	private FileReader fileReader;
 	private BufferedReader bufferedReader;
+	String fileName;
 	String line = null;
 	
 	// Scope display handler
@@ -567,7 +570,7 @@ public class Parser implements SimpleScriptVisitor {
 		String file = getTokenOfChild(node, 0);
 		String extension = getTokenOfChild(node, 1);
 		// Could be shorter in terms of code, but cleaner this way
-		String fileName = file + "." + extension;
+		fileName = file + "." + extension;
 		
 		try {
             fileReader = new FileReader(fileName);
@@ -601,7 +604,6 @@ public class Parser implements SimpleScriptVisitor {
         		}   
             }   
 		} catch(IOException ex) {
-            System.out.println("Unable to read file");	
             throw new ExceptionSemantic("Unable to read a file. Did you OPEN it yet?");
         }
         
@@ -610,7 +612,22 @@ public class Parser implements SimpleScriptVisitor {
 	
 	public Object visit(ASTEditFile node, Object data) {
 		String text = getTokenOfChild(node, 0);
-		System.out.println("Would be adding: " + text);
+		try {
+            FileWriter fileWriter = new FileWriter(fileName);
+
+            // Always wrap FileWriter in BufferedWriter.
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            
+            // Currently this overwrites the whole file :(
+            // Append line with a newline character
+            bufferedWriter.write(text + "\n");
+            
+            // Close the writer
+            bufferedWriter.close();
+        }
+        catch(IOException ex) {
+        	throw new ExceptionSemantic("Unable to edit this file.");
+        }
 		return node.optimised;
 	}
 	
@@ -629,11 +646,10 @@ public class Parser implements SimpleScriptVisitor {
 		String name = getTokenOfChild(node, 0);
 		if(immutables.findArray(name) != null)
 		{
-			Display.ArrayReference arrayReference = immutables.findArray(name);
 			// arrayReference contains the array
+			Display.ArrayReference arrayReference = immutables.findArray(name);
 			
 			// Use java.sort() to sort this array now
-			
 		}
 		else
 		{

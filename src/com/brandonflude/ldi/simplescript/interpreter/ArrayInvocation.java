@@ -4,8 +4,7 @@ import java.util.Vector;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import com.brandonflude.ldi.simplescript.values.Value;
-import com.brandonflude.ldi.simplescript.values.ValueInteger;
+import com.brandonflude.ldi.simplescript.values.*;
 
 /** Array invocation context. */
 class ArrayInvocation {
@@ -50,36 +49,48 @@ class ArrayInvocation {
 		ArrayList<Integer> sortedIntegers = new ArrayList<Integer>();	
 		
 		// Sorted Strings
-		//ArrayList<String> sortedStrings = new ArrayList<String>();
+		ArrayList<String> sortedStrings = new ArrayList<String>();
 		
 		for(int i = 0; i < values.size(); i++)
 		{		
-			try
+			
+			if(values.get(i).getName() == "integer")
 			{
-				(values.get(i)).intValue();
-			  
-			  	int temp = values.get(i).intValue();
-				
-				// Add value to ArrayList
+				int temp = values.get(i).intValue();
 				sortedIntegers.add(temp);
-		        
-		    } catch (NumberFormatException ex) {
-		       // String!
-		    	//String temp = values.get(i).stringValue();
-		    	// Add value to ArrayList
-				//sortedStrings.add(temp);
-		    }
+			}
+			
+			if(values.get(i).getName() == "string")
+			{
+				String temp = values.get(i).stringValue();
+				sortedStrings.add(temp);
+			}
 		}
 
 		// Sort the Java Array using Collections
 		Collections.sort(sortedIntegers);
-		//Collections.sort(sortedStrings);
+		Collections.sort(sortedStrings);
+		
+		int i = 0;
 		
 		// Overwrite the passed in Array (SS Array) with for loop
-		for(int i = 0; i < values.size(); i++)
+		if(!sortedIntegers.isEmpty())
 		{
-			Value j = new ValueInteger(sortedIntegers.get(i));
-			setValue(i, j);
+			for(; i < sortedIntegers.size(); i++)
+			{	
+				Value k = new ValueInteger(sortedIntegers.get(i));
+				setValue(i, k);
+			}
+		}
+		
+		if(!sortedStrings.isEmpty())
+		{	
+			for(int a = 0; a < sortedStrings.size(); i++, a++)
+			{
+				// Strings after Integers
+				Value j = new ValueString(sortedStrings.get(a));
+				setValue(i, j);
+			}
 		}
 	}
 }

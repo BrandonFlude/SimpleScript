@@ -62,7 +62,7 @@ class Display {
 		ArrayReference sort(String name) {
 			arrays[displayDepth].sort(name);
 			// Return reference to this
-			return new ArrayReference(currentLevel);
+			return new ArrayReference(displayDepth);
 		}
 	}
 	

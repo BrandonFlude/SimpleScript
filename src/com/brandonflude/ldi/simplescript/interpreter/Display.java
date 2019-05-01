@@ -58,6 +58,12 @@ class Display {
 		int getSize(String name) {
 			return arrays[displayDepth].getSize(name);
 		}
+		
+		ArrayReference sort(String name) {
+			arrays[displayDepth].sort(name);
+			// Return reference to this
+			return new ArrayReference(currentLevel);
+		}
 	}
 	
 	/** Ctor */

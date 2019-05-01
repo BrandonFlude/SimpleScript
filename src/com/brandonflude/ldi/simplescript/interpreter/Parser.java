@@ -648,8 +648,13 @@ public class Parser implements SimpleScriptVisitor {
 		{
 			// arrayReference contains the array
 			Display.ArrayReference arrayReference = immutables.findArray(name);
-			
-			// Use java.sort() to sort this array now
+		
+			if(arrayReference != null)
+			{
+				// Sort this array
+				arrayReference.sort(name);
+			}				
+			node.optimised = arrayReference;
 		}
 		else
 		{

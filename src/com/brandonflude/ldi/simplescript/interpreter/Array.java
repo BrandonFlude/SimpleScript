@@ -6,7 +6,7 @@ import java.util.Collections;
 
 import com.brandonflude.ldi.simplescript.values.*;
 
-/** Array invocation context. */
+/** Array context. */
 class Array {
 
 	private String arrayName;

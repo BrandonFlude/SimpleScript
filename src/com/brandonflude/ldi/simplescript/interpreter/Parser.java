@@ -568,7 +568,6 @@ public class Parser implements SimpleScriptVisitor {
 	public Object visit(ASTOpenFile node, Object data) {
 		// Loop through all children of this node to create a filename
 		int numOfChildren = node.jjtGetNumChildren();
-		System.out.println(numOfChildren);
 		
 		// Loop through all the children, appending to a string as we go
 		for(int c = 0; c < numOfChildren; c++)
@@ -623,7 +622,25 @@ public class Parser implements SimpleScriptVisitor {
 	}
 	
 	public Object visit(ASTEditFile node, Object data) {
-		String text = getTokenOfChild(node, 0);
+		
+		// Concatenate all the text into one string
+		int numOfChildren = node.jjtGetNumChildren();
+		String text = "";
+		
+		// Loop through all the children, appending to a string as we go
+		for(int c = 0; c < numOfChildren; c++)
+		{
+			if(c == 0)
+			{
+				text = text + getTokenOfChild(node, c);
+			}
+			else
+			{
+				text = text + " " + getTokenOfChild(node, c);
+			}
+			
+		}
+		
 		try {
             FileWriter fileWriter = new FileWriter(fileName);
 
@@ -632,7 +649,7 @@ public class Parser implements SimpleScriptVisitor {
             
             // Currently this overwrites the whole file :(
             // Append line with a newline character
-            bufferedWriter.write(text + "\n");
+            bufferedWriter.write(text);
             
             // Close the writer
             bufferedWriter.close();

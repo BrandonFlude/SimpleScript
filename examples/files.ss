@@ -1,4 +1,4 @@
 openfile test.txt
 readfile
-editfile HELLO
+editfile A B
 closefile

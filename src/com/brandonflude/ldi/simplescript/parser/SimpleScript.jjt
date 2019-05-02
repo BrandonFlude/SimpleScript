@@ -316,8 +316,8 @@ void file_commands() :
 {}
 {
 		  					<OPENFILE> file_expression() #OpenFile(2)
-		  			| 		<READFILE> [ "(" integer() ")" {  jjtThis.readLineFromFile = true; } ] #ReadFile  // Specify the line from the file to read
-		  			|  		<EDITFILE> expression() #EditFile // Edit the file by adding the line of text written
+		  			| 		<READFILE> [ "[" integer() "]" {  jjtThis.readLineFromFile = true; } ] #ReadFile  // Specify the line from the file to read
+		  			|  		<EDITFILE> ( expression() )* #EditFile(2) // Edit the file by adding the line of text written
 		  			| 		<CLOSEFILE> #CloseFile
 }
 

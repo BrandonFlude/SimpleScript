@@ -16,7 +16,7 @@ public class Parser implements SimpleScriptVisitor {
 	// Global file variables
 	private FileReader fileReader;
 	private BufferedReader bufferedReader;
-	String fileName;
+	String fileName = "";
 	String line = null;
 	
 	// Scope display handler
@@ -566,16 +566,28 @@ public class Parser implements SimpleScriptVisitor {
 	}
 	
 	public Object visit(ASTOpenFile node, Object data) {
-		// Open file using standard Java methods
-		String file = getTokenOfChild(node, 0);
-		String extension = getTokenOfChild(node, 1);
-		// Could be shorter in terms of code, but cleaner this way
-		fileName = file + "." + extension;
+		// Loop through all children of this node to create a filename
+		int numOfChildren = node.jjtGetNumChildren();
+		System.out.println(numOfChildren);
 		
+		// Loop through all the children, appending to a string as we go
+		for(int c = 0; c < numOfChildren; c++)
+		{
+			if(c == numOfChildren - 1)
+			{
+				fileName = fileName + "." + getTokenOfChild(node, c);
+			}
+			else
+			{
+				fileName = fileName + getTokenOfChild(node, c);
+			}
+		}
+		
+		// Open file using standard Java methods
 		try {
             fileReader = new FileReader(fileName);
 		} catch(FileNotFoundException ex) {
-			throw new ExceptionSemantic("Unable to open file" + fileName);
+			throw new ExceptionSemantic("Unable to open file " + fileName);
         }
 		
 		return node.optimised;

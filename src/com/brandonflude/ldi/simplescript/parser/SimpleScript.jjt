@@ -463,8 +463,8 @@ void primary_expression() :
 void file_expression() :
 {}
 {
-  							// directory followed by slash*, followed by filename.fileextension
-							(expression() "/" )* expression() "." expression()
+  							// filename.fileextension, must be in root of project
+							expression() "." expression()
 }
 
 

@@ -1,4 +1,4 @@
 openfile test.txt
 readfile
-editfile A B
+editfile "this is a test"
 closefile

@@ -632,11 +632,11 @@ public class Parser implements SimpleScriptVisitor {
 		{
 			if(c == 0)
 			{
-				text = text + getTokenOfChild(node, c);
+				text = text + doChild(node, c).toString();
 			}
 			else
 			{
-				text = text + " " + getTokenOfChild(node, c);
+				text = text + " " + doChild(node, c).toString();
 			}
 			
 		}

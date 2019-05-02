@@ -1,6 +1,7 @@
 integerArray[]: [2, 1, 3, 4]
 stringArray[]: ["c", "b", "a", "d", "e"]
 mixedArray[]: ["cat", "box", "dog", 1, 3, 2]
+string: "hello"
 
 j: sizeof integerArray
 k: sizeof stringArray

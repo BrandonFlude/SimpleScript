@@ -648,17 +648,16 @@ public class Parser implements SimpleScriptVisitor {
 		{
 			// arrayReference contains the array
 			Display.ArrayReference arrayReference = immutables.findArray(name);
-		
 			if(arrayReference != null)
 			{
 				// Sort this array
 				arrayReference.sort(name);
-			}				
+			}
 			node.optimised = arrayReference;
 		}
 		else
 		{
-			throw new ExceptionSemantic("Variable or parameter " + name + " is undefined.");
+			throw new ExceptionSemantic("Variable or parameter " + name + " is undefined or is not an array.");
 		}
 		
 		return node.optimised;
@@ -676,7 +675,7 @@ public class Parser implements SimpleScriptVisitor {
 		}
 		else
 		{
-			throw new ExceptionSemantic("Variable or parameter " + name + " is undefined.");
+			throw new ExceptionSemantic("Variable or parameter " + name + " is undefined or is not an array.");
 		}
 		return node.optimised;
 	}

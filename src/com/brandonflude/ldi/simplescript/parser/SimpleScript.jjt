@@ -463,8 +463,8 @@ void primary_expression() :
 void file_expression() :
 {}
 {
-  							// Fix this to eventually allow filepaths (/<dir>/)*
-							expression() "." expression()
+  							// directory followed by slash*, followed by filename.fileextension
+							(expression() "/" )* expression() "." expression()
 }
 
 

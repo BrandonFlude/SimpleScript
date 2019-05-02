@@ -9,7 +9,7 @@ class Display {
 
 	private final int maximumFunctionNesting = 64;
 	private FunctionInvocation[] display = new FunctionInvocation[maximumFunctionNesting];
-	private ArrayInvocation[] arrays = new ArrayInvocation[128]; // Not entirely sure what this number is for
+	private Array[] arrays = new Array[128]; // Not entirely sure what this number is for
 	private int currentLevel;
 	private int arrayCounter = 0;
 
@@ -125,7 +125,7 @@ class Display {
 	
 	/** Create a array in the current level and return its Reference. */
 	ArrayReference defineArray(String name) {
-		arrays[arrayCounter] = new ArrayInvocation(name);
+		arrays[arrayCounter] = new Array(name);
 		ArrayReference arrayRef = new ArrayReference(arrayCounter);
 		// Ready it for the next array
 		arrayCounter++;

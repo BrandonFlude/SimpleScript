@@ -7,7 +7,7 @@ import java.util.Collections;
 import com.brandonflude.ldi.simplescript.values.*;
 
 /** Array invocation context. */
-class ArrayInvocation {
+class Array {
 
 	private String arrayName;
 	private Vector<Value> values;
@@ -25,7 +25,7 @@ class ArrayInvocation {
 	}
 	
 	/** Ctor for user-defined function. */
-	ArrayInvocation(String name) {
+	Array(String name) {
 		arrayName = name;
 		values = new Vector<Value>();
 	}

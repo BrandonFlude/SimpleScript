@@ -500,6 +500,14 @@ public class Parser implements SimpleScriptVisitor {
 		return data;
 	}
 	
+	public Object visit(ASTPE node, Object data) {
+		return data;
+	}
+	
+	public Object visit(ASTME node, Object data) {
+		return data;
+	}
+	
 	// *
 	public Object visit(ASTTimes node, Object data) {
 		return doChild(node, 0).mult(doChild(node, 1));

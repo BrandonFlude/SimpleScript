@@ -57,3 +57,5 @@
 /ASTDereference.java
 /ASTFnDef.java
 /ASTIfStatement.java
+/ASTME.java
+/ASTPE.java

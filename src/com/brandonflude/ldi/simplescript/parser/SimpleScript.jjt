@@ -227,6 +227,8 @@ void statement() #Statement :
 				 	LOOKAHEAD(2) assignment()
 				|   LOOKAHEAD(2) plus_one_expression()
 				|   LOOKAHEAD(2) sub_one_expression()
+				| 	LOOKAHEAD(2) plus_equals_expression()
+				|   LOOKAHEAD(2) sub_equals_expression()
 				|	fndef()
 				|	block()
 				|	ifstatement()	
@@ -432,6 +434,19 @@ void sub_one_expression() #Subtract1(1) :
 {
   								identifier() <MM> 
 }
+
+void plus_equals_expression() #PE(1) :
+{}
+{
+  								identifier() <PEQ>
+}
+
+void sub_equals_expression() #ME(1) :
+{}
+{
+  								identifier() <MEQ> 
+}
+
 
 void mul_expression() : 
 {} 

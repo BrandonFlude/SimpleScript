@@ -304,7 +304,7 @@ public class Parser implements SimpleScriptVisitor {
 			}
 			else
 			{
-				stringBuilder = stringBuilder + doChild(node, c).toString();  
+				stringBuilder = stringBuilder + doChild(node, c);  
 			}	
 		}
 
@@ -501,13 +501,48 @@ public class Parser implements SimpleScriptVisitor {
 	}
 	
 	public Object visit(ASTPE node, Object data) {
+		Display.Reference reference;
+		if (node.optimised == null) {
+			String name = getTokenOfChild(node, 0);
+			reference = scope.findReference(name);	
+			if (reference == null) {
+				// Look in constants, and then throw an error
+				if(immutables.findReference(name) != null)
+				{
+					throw new ExceptionSemantic("Variable: " + name + " cannot be changed.");
+				}
+				else
+					throw new ExceptionSemantic("Variable: " + name + " was not found.");
+			}
+		} else {
+			reference = (Display.Reference)node.optimised;
+		}		
+		reference.setValue(reference.getValue().add(doChild(node, 1)));
 		return data;
 	}
 	
 	public Object visit(ASTME node, Object data) {
+		Display.Reference reference;
+		if (node.optimised == null) {
+			String name = getTokenOfChild(node, 0);
+			reference = scope.findReference(name);	
+			if (reference == null) {
+				// Look in constants, and then throw an error
+				if(immutables.findReference(name) != null)
+				{
+					throw new ExceptionSemantic("Variable: " + name + " cannot be changed.");
+				}
+				else
+					throw new ExceptionSemantic("Variable: " + name + " was not found.");
+			}
+		} else {
+			reference = (Display.Reference)node.optimised;
+		}
+		
+		reference.setValue(reference.getValue().subtract(doChild(node, 1)));
 		return data;
 	}
-	
+
 	// *
 	public Object visit(ASTTimes node, Object data) {
 		return doChild(node, 0).mult(doChild(node, 1));
@@ -576,17 +611,39 @@ public class Parser implements SimpleScriptVisitor {
 	public Object visit(ASTOpenFile node, Object data) {
 		// Loop through all children of this node to create a filename
 		int numOfChildren = node.jjtGetNumChildren();
+		Display.Reference reference;
 		
-		// Loop through all the children, appending to a string as we go
-		for(int c = 0; c < numOfChildren; c++)
+		// If only one child, expect filename to be a variable
+		if(numOfChildren == 1)
 		{
-			if(c == numOfChildren - 1)
+			if (node.optimised == null)
 			{
-				fileName = fileName + "." + getTokenOfChild(node, c);
+				// Get variable name
+				String name = getTokenOfChild(node, 0);
+				reference = scope.findReference(name);
+				if(reference != null)
+				{
+					fileName = reference.getValue().toString();
+				}
+				else
+				{
+					throw new ExceptionSemantic("File name not found");
+				}
 			}
-			else
+		}
+		else
+		{
+			// Loop through all the children, appending to a string as we go
+			for(int c = 0; c < numOfChildren; c++)
 			{
-				fileName = fileName + getTokenOfChild(node, c);
+				if(c == numOfChildren - 1)
+				{
+					fileName = fileName + "." + getTokenOfChild(node, c);
+				}
+				else
+				{
+					fileName = fileName + getTokenOfChild(node, c);
+				}
 			}
 		}
 		
@@ -650,14 +707,13 @@ public class Parser implements SimpleScriptVisitor {
 		}
 		
 		try {
-            FileWriter fileWriter = new FileWriter(fileName);
+            FileWriter fileWriter = new FileWriter(fileName, true);
 
             // Always wrap FileWriter in BufferedWriter.
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             
-            // Currently this overwrites the whole file :(
-            // Append line with a newline character
-            bufferedWriter.write(text);
+            // Append line
+            bufferedWriter.write(text + "\n");
             
             // Close the writer
             bufferedWriter.close();
@@ -673,6 +729,7 @@ public class Parser implements SimpleScriptVisitor {
 		try {
 			fileReader.close();
         	bufferedReader.close();
+        	fileName = "";
 		} catch(IOException ex) {
 			throw new ExceptionSemantic("Unable to close a file.");
         }
@@ -696,7 +753,6 @@ public class Parser implements SimpleScriptVisitor {
 		{
 			throw new ExceptionSemantic("Variable or parameter " + name + " is undefined or is not an array.");
 		}
-		
 		return node.optimised;
 	}
 	

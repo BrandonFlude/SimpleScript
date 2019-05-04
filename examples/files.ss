@@ -1,4 +1,12 @@
+filename: "test.txt"
+
+// Open file using var
+openfile filename
+readfile
+editfile "test"
+closefile
+
+// Reopen file using hardtyped name
 openfile test.txt
 readfile
-editfile "this is a test"
 closefile

@@ -192,7 +192,7 @@ TOKEN : /* OPERATOR SYMBOLS */
 {
   < ASSIGN: "=" >
 | < PEQ: "+=" >
-| < MEQ: "-=" >
+| < MEQ: "-=" > 
 | < UEQ: "@=" >
 | < EQ: "EQUAL TO" >
 | < GT: "GREATER THAN" >
@@ -227,8 +227,6 @@ void statement() #Statement :
 				 	LOOKAHEAD(2) assignment()
 				|   LOOKAHEAD(2) plus_one_expression()
 				|   LOOKAHEAD(2) sub_one_expression()
-				| 	LOOKAHEAD(2) plus_equals_expression()
-				|   LOOKAHEAD(2) sub_equals_expression()
 				|	fndef()
 				|	block()
 				|	ifstatement()	
@@ -303,13 +301,14 @@ void assignment() #Assignment :
 					[ <CONST> { jjtThis.assignmentIsConst = true; } ]
 					identifier()
 					[ "[]" { jjtThis.assignmentIsArray = true; } ]
-					":" value_assignment()
+					// Can have be followed by an expression or custom +=/-= expression
+					":" value_assignment() 
 }
 
 void value_assignment () :
 {}
 {
-	  					expression()
+	  					LOOKAHEAD(2) expression()
 	  				|   "[" expression() ( "," expression() )* "]"
 	  				|   sizeof() // Allow variables to be set to sizeof arrays
 }
@@ -317,7 +316,8 @@ void value_assignment () :
 void file_commands() :
 {}
 {
-		  					<OPENFILE> file_expression() #OpenFile(2)
+		  					LOOKAHEAD(3) <OPENFILE> expression() "." expression() #OpenFile(2)
+		  			| 		<OPENFILE> identifier() #OpenFile 
 		  			| 		<READFILE> [ "[" integer() "]" {  jjtThis.readLineFromFile = true; } ] #ReadFile  // Specify the line from the file to read
 		  			|  		<EDITFILE> expression() #EditFile // Edit the file by adding the line of text written
 		  			| 		<CLOSEFILE> #CloseFile
@@ -435,19 +435,6 @@ void sub_one_expression() #Subtract1(1) :
   								identifier() <MM> 
 }
 
-void plus_equals_expression() #PE(1) :
-{}
-{
-  								identifier() <PEQ>
-}
-
-void sub_equals_expression() #ME(1) :
-{}
-{
-  								identifier() <MEQ> 
-}
-
-
 void mul_expression() : 
 {} 
 { 
@@ -474,20 +461,6 @@ void primary_expression() :
                             | dereference()
                             | "(" expression() ")"
 }
-
-void file_expression() :
-{}
-{
-  							// filename.fileextension, must be in root of project
-							expression() "." expression()
-}
-
-void directory() : // to be implemented
-{}
-{
-							expression() "/"
-}
-
 
 void fn_invoke() #FnInvoke :
 {}

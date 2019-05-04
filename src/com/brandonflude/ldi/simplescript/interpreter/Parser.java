@@ -621,10 +621,7 @@ public class Parser implements SimpleScriptVisitor {
 	}
 	
 	public Object visit(ASTOpenFile node, Object data) {
-		// Loop through all children of this node to create a filename
-		int numOfChildren = node.jjtGetNumChildren();
 		Display.Reference reference;
-		
 		if (node.optimised == null)
 		{
 			// Get variable name

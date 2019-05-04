@@ -500,6 +500,7 @@ public class Parser implements SimpleScriptVisitor {
 		return data;
 	}
 	
+	/*
 	public Object visit(ASTPE node, Object data) {
 		Display.Reference reference;
 		if (node.optimised == null) {
@@ -542,7 +543,8 @@ public class Parser implements SimpleScriptVisitor {
 		reference.setValue(reference.getValue().subtract(doChild(node, 1)));
 		return data;
 	}
-
+	*/
+	
 	// *
 	public Object visit(ASTTimes node, Object data) {
 		return doChild(node, 0).mult(doChild(node, 1));

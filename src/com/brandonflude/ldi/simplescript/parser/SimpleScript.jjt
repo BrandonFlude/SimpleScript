@@ -326,13 +326,12 @@ void value_assignment () :
 void file_commands() :
 {}
 {
-		  					<OPENFILE> "(" ( LOOKAHEAD(2) (expression() "." expression() #OpenFile(2)) | identifier() #OpenFile ) ")" 
+		  					<OPENFILE> "(" ( LOOKAHEAD(2) ( expression() #OpenFile ) | identifier() #OpenFile ) ")" 
 		  			| 		<READFILE> [ "[" integer() "]" {  jjtThis.readLineFromFile = true; } ] #ReadFile  // Specify the line from the file to read
 		  			|  		<EDITFILE> "(" expression() ")" #EditFile(1) // Edit the file by adding the line of text written in ""
 		  			| 		<CLOSEFILE> #CloseFile
 		  			| 		<CLEARFILE> #ClearFile
 }
-
 
 void ifstatement() #IfStatement :
 {}
@@ -366,8 +365,8 @@ void write() #Write :
 {}
 {
 
-					LOOKAHEAD(2) <WRITE> expression() [ "[" arrayValue() "]" {jjtThis.writeIsFromArray = true;} ]
-				| 	<WRITE> expression() ( "+" expression() )*
+					LOOKAHEAD(2) <WRITE> "(" expression() [ "[" arrayValue() "]" {jjtThis.writeIsFromArray = true;} ] ")"
+				| 	<WRITE> "(" expression() ( "+" expression() )* ")"
 }
 
 void arrayValue() :

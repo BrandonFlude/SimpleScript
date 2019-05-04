@@ -625,40 +625,28 @@ public class Parser implements SimpleScriptVisitor {
 		int numOfChildren = node.jjtGetNumChildren();
 		Display.Reference reference;
 		
-		// If only one child, expect filename to be a variable
-		if(numOfChildren == 1)
+		if (node.optimised == null)
 		{
-			if (node.optimised == null)
+			// Get variable name
+			String name = getTokenOfChild(node, 0);
+			reference = scope.findReference(name);
+			if(reference != null)
 			{
-				// Get variable name
-				String name = getTokenOfChild(node, 0);
-				reference = scope.findReference(name);
-				if(reference != null)
-				{
-					fileName = reference.getValue().toString();
-				}
-				else
-				{
-					throw new ExceptionSemantic("File name not found");
-				}
+				fileName = reference.getValue().toString();
+			}
+			else if(immutables.findReference(name) != null)
+			{
+				// Perhaps it's a constant
+				reference = immutables.findReference(name);
+				fileName = reference.getValue().toString();
+			}
+			else
+			{
+				// Treat this as a raw file name
+				fileName = doChild(node, 0).toString();
 			}
 		}
-		else
-		{
-			// Loop through all the children, appending to a string as we go
-			for(int c = 0; c < numOfChildren; c++)
-			{
-				if(c == numOfChildren - 1)
-				{
-					fileName = fileName + "." + getTokenOfChild(node, c);
-				}
-				else
-				{
-					fileName = fileName + getTokenOfChild(node, c);
-				}
-			}
-		}
-		
+	
 		// Open file using standard Java methods
 		try {
             fileReader = new FileReader(fileName);

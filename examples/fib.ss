@@ -13,8 +13,8 @@ func fib(n) {
 
 }
 
-write "Attempt 1"
+write("Attempt 1")
 
 for (i: 0; i LESS THAN 10; i++) {
-    write fib(i)
+    write(fib(i))
 }

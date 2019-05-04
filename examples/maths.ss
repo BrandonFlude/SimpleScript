@@ -25,145 +25,145 @@ p: 1.5 / 3 // 0.5
 
 if(a EQUAL TO 18.7)
 {
-  write "a: true"
+  write("a: true")
 }
 else
 {
-  write "false"
+  write("false")
 }
 
 if(b EQUAL TO 6.1894)
 {
-  write "b: true"
+  write("b: true")
 }
 else
 {
-  write "false"
+  write("false")
 }
 
 if(c EQUAL TO 6.9)
 {
-  write "c: true"
+  write("c: true")
 }
 else
 {
-  write "false"
+  write("false")
 }
 
 if(d EQUAL TO 8.333)
 {
-  write "d: true"
+  write("d: true")
 }
 else
 {
-  write "false"
+  write("false")
 }
 
 if(e EQUAL TO 14)
 {
-  write "e: true"
+  write("e: true")
 }
 else
 {
-  write "false"
+  write("false")
 }
 
 if(f EQUAL TO 0)
 {
-  write "f: true"
+  write("f: true")
 }
 else
 {
-  write "false"
+  write("false")
 }
 
 if(g EQUAL TO 2.5)
 {
-  write "g: true"
+  write("g: true")
 }
 else
 {
-  write "false"
+  write("false")
 }
 
 if(h EQUAL TO 1.1)
 {
-  write "h: true"
+  write("h: true")
 }
 else
 {
-  write "false"
+  write("false")
 }
 
 if(i EQUAL TO 1)
 {
-  write "i: true"
+  write("i: true")
 }
 else
 {
-  write "false"
+  write("false")
 }
 
 if(j EQUAL TO 1)
 {
-  write "j: true"
+  write("j: true")
 }
 else
 {
-  write "false"
+  write("false")
 }
 
 
 if(k EQUAL TO 25)
 {
-	write"k: true"
+	write("k: true")
 }
 else
 {
-	write "false"
+	write("false")
 }
 
 if(l EQUAL TO 30.25)
 {
-	write "l: true"
+	write("l: true")
 }
 else
 {
-	write "false"
+	write("false")
 }
 
 if(m EQUAL TO 5)
 {
-	write "m: true"
+	write("m: true")
 }
 else
 {
-	write "false"
+	write("false")
 }
 
 if(n EQUAL TO 7.5)
 {
-	write "n: true"
+	write("n: true")
 }
 else
 {
-	write "false"
+	write("false")
 }
 
 if(o EQUAL TO 2)
 {
-	write "o: true"
+	write("o: true")
 }
 else
 {
-	write "false"
+	write("false")
 }
 
 if(p EQUAL TO 0.5)
 {
-	write "p: true"
+	write("p: true")
 }
 else
 {
-	write "false"
+	write("false")
 }

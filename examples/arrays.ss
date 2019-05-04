@@ -2,9 +2,9 @@ integerArray[]: [2, 1, 3, 4]
 stringArray[]: ["c", "b", "a", "d", "e"]
 mixedArray[]: ["cat", "box", "dog", 1, 3, 2]
 
-j: sizeof integerArray
-k: sizeof stringArray
-l: sizeof mixedArray
+j: sizeof(integerArray)
+k: sizeof(stringArray)
+l: sizeof(mixedArray)
 
 for(i: 0; i LESS THAN j; i++)
 {
@@ -21,21 +21,21 @@ for(i: 0; i LESS THAN l; i++)
 	write mixedArray[i]
 }
 
-sort integerArray
+sort(integerArray)
 
 for(i: 0; i LESS THAN j; i++)
 {
 	write integerArray[i]
 }
 
-sort stringArray
+sort(stringArray)
 
 for(i: 0; i LESS THAN k; i++)
 {
 	write stringArray[i]
 }
 
-sort mixedArray
+sort(mixedArray)
 
 for(i: 0; i LESS THAN l; i++)
 {

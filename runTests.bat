@@ -19,4 +19,7 @@ java -classpath ./bin SimpleScript < examples/stringconcat.ss
 echo "=== Reading Files ==="
 java -classpath ./bin SimpleScript < examples/files.ss
 
+echo "=== User Input ==="
+java -classpath ./bin SimpleScript < examples/userinput.ss
+
 PAUSE

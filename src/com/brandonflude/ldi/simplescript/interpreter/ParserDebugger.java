@@ -322,4 +322,9 @@ public class ParserDebugger implements SimpleScriptVisitor {
 		dump(node, data);
 		return data;
 	}
+	
+	public Object visit(ASTInput node, Object data) {
+		dump(node, data);
+		return data;
+	}
 }

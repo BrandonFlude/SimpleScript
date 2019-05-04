@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
+import java.util.Scanner;
 
 import com.brandonflude.ldi.simplescript.parser.ast.*;
 import com.brandonflude.ldi.simplescript.values.*;
@@ -697,8 +698,7 @@ public class Parser implements SimpleScriptVisitor {
 		return node.optimised;
 	}
 	
-	public Object visit(ASTEditFile node, Object data) {
-		
+	public Object visit(ASTEditFile node, Object data) {		
 		// Concatenate all the text into one string
 		int numOfChildren = node.jjtGetNumChildren();
 		String text = "";
@@ -807,10 +807,10 @@ public class Parser implements SimpleScriptVisitor {
 		
 		if(node.randHasParams == true)
 		{
-			int min = doChild(node, 1).intValue();
-			int max = doChild(node, 0).intValue();
+			int min = doChild(node, 0).intValue();
+			int max = doChild(node, 1).intValue();
 			
-			randNum = random.nextInt(min - max) + min;
+			randNum = random.nextInt(max - min) + min;
 		}
 		else
 		{
@@ -820,5 +820,21 @@ public class Parser implements SimpleScriptVisitor {
 		
 		node.optimised = new ValueInteger(randNum);
 		return node.optimised;
+	}
+	
+	public Object visit(ASTInput node, Object data) {		
+		// First child should be the question
+		System.out.println(doChild(node, 0).toString());
+		
+		Scanner reader = new Scanner(System.in);
+		
+		// Read in response
+		String response = reader.next(); 
+		
+		// Close reader
+		reader.close();
+		
+		// Return response
+		return response;
 	}
 }

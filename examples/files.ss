@@ -1,16 +1,16 @@
 filename: "test.txt"
 
-// Open file using var
-openfile filename
+// Open, read and edit the file using var
+openfile(filename)
 readfile
-editfile "test"
+editfile("This is some example text...")
 closefile
 
 // Reopen file using hardtyped name
-openfile test.txt
+openfile(test.txt)
 readfile
 
-// Clear file for next run
+// Clear and prepare file for next run
 clearfile
 
 // Close

@@ -4,12 +4,12 @@ func printNN(n) {
 }
 
 func printN(n) {
-	@USE printNN
+	use(printNN)
 	n: n + 2
 	ret n
 }
 
-i: rand (1, 10000)
+i: rand (1, 250)
 // Would return x, but instead now returns x*x
 write "Random number is "+i
 write printN(i) 

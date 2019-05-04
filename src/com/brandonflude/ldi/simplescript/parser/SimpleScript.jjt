@@ -82,6 +82,7 @@ TOKEN [IGNORE_CASE] : /* RESERVED WORDS AND LITERALS */
 | < SORT: "SORT" >
 | < SIZEOF: "SIZEOF" >
 | < RAND: "RAND" >
+| < INPUT: "INPUT" >
 }
 
 TOKEN : /* LITERALS */
@@ -266,7 +267,7 @@ void fndef() #FnDef :
 {
 					<FUNC> identifier() parmlist() "{"
 						// Support for deprecation, fill body with new func.
-						[ "@" <USE> fnUse() {jjtThis.fnIsDeprecated = true;} ]
+						[ <USE> "(" fnUse() ")" {jjtThis.fnIsDeprecated = true;} ]
 						fnbody()
 						[ <RET> returnexpr() {jjtThis.fnHasReturn = true;} ] 
 					"}"
@@ -287,20 +288,20 @@ void fnUse() :
 void sort() #Sort:
 {}
 {
-					<SORT> expression() // Sort an array
+					<SORT> "(" expression() ")" // Sort an array
 }
 
 void sizeof() #SizeOf:
 {}
 {
-					<SIZEOF> expression() // Find out the size of an array
+					<SIZEOF> "(" expression() ")" // Find out the size of an array
 }
 
 void rand() #Rand:
 {}
 {
 					<RAND> [ "(" integer() "," integer() ")" { jjtThis.randHasParams = true; } ] // Get a random number
-} 
+}
 
 void assignment() #Assignment :
 {}
@@ -319,15 +320,15 @@ void value_assignment () :
 	  				|   "[" expression() ( "," expression() )* "]"
 	  				|   sizeof() // Allow variables to be set to sizeof arrays
 	  				|   rand()  // Set a variable to a random number
+	  				|   <INPUT> expression() #Input // The given variable should be input by the user
 }
 
 void file_commands() :
 {}
 {
-		  					LOOKAHEAD(3) <OPENFILE> expression() "." expression() #OpenFile(2)
-		  			| 		<OPENFILE> identifier() #OpenFile 
+		  					<OPENFILE> "(" ( LOOKAHEAD(2) (expression() "." expression() #OpenFile(2)) | identifier() #OpenFile ) ")" 
 		  			| 		<READFILE> [ "[" integer() "]" {  jjtThis.readLineFromFile = true; } ] #ReadFile  // Specify the line from the file to read
-		  			|  		<EDITFILE> expression() #EditFile // Edit the file by adding the line of text written
+		  			|  		<EDITFILE> "(" expression() ")" #EditFile(1) // Edit the file by adding the line of text written in ""
 		  			| 		<CLOSEFILE> #CloseFile
 		  			| 		<CLEARFILE> #ClearFile
 }

@@ -18,8 +18,10 @@
 /ASTReturnExpression.java
 /ASTOr.java
 /ASTCompLTE.java
+/ASTClearFile.java
 /ASTCompLT.java
 /ASTFalse.java
+/ASTRand.java
 /ASTBlock.java
 /ASTAssignment.java
 /ASTAdd.java

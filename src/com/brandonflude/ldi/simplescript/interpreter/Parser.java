@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Random;
 
 import com.brandonflude.ldi.simplescript.parser.ast.*;
 import com.brandonflude.ldi.simplescript.values.*;
@@ -108,7 +109,13 @@ public class Parser implements SimpleScriptVisitor {
 				
 				// Child 4 - optional return expression
 				if (node.fnHasReturn)
-					currentFunctionDefinition.setFunctionReturnExpression(replacementFunction.getFunctionReturnExpression());
+				{
+					// If the new function has a return, set it to the contents of the @USE function
+					if(replacementFunction.getFunctionReturnExpression() != null)
+					{
+						currentFunctionDefinition.setFunctionReturnExpression(replacementFunction.getFunctionReturnExpression());
+					}
+				}
 			}
 			else
 			{
@@ -122,7 +129,9 @@ public class Parser implements SimpleScriptVisitor {
 						
 			// Child 3 - optional return expression
 			if (node.fnHasReturn)
+			{
 				currentFunctionDefinition.setFunctionReturnExpression(getChild(node, 3));
+			}	
 		}
 	
 		// Preserve this definition for future reference, and so we don't define
@@ -738,6 +747,23 @@ public class Parser implements SimpleScriptVisitor {
 		return node.optimised;
 	}
 	
+	public Object visit(ASTClearFile node, Object data) {
+		try {
+            FileWriter fileWriter = new FileWriter(fileName, false);
+
+            // Always wrap FileWriter in BufferedWriter.
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                        
+            // Close the writer
+            bufferedWriter.close();
+        }
+        catch(IOException ex) {
+        	throw new ExceptionSemantic("Unable to clear the opened file.");
+        }
+		
+		return node.optimised;
+	}
+	
 	public Object visit(ASTSort node, Object data) {
 		String name = getTokenOfChild(node, 0);
 		if(immutables.findArray(name) != null)
@@ -772,6 +798,27 @@ public class Parser implements SimpleScriptVisitor {
 		{
 			throw new ExceptionSemantic("Variable or parameter " + name + " is undefined or is not an array.");
 		}
+		return node.optimised;
+	}
+	
+	public Object visit(ASTRand node, Object data) {
+		Random random = new Random();
+		int randNum;
+		
+		if(node.randHasParams == true)
+		{
+			int min = doChild(node, 1).intValue();
+			int max = doChild(node, 0).intValue();
+			
+			randNum = random.nextInt(min - max) + min;
+		}
+		else
+		{
+			// Generate number between 0 and 100
+			randNum = random.nextInt(100);
+		}
+		
+		node.optimised = new ValueInteger(randNum);
 		return node.optimised;
 	}
 }

@@ -38,8 +38,6 @@ public class BaseASTNode {
 	// Set a readfile statement to only read one line
 	public boolean readLineFromFile = false;
 	
-	/*
-	public boolean isPlusPlus = false;
-	public boolean isMinusMinus = false;
-	*/
+	// Option for setting a random number between 2 numbers
+	public boolean randHasParams = false;
 }

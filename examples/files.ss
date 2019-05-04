@@ -9,4 +9,9 @@ closefile
 // Reopen file using hardtyped name
 openfile test.txt
 readfile
+
+// Clear file for next run
+clearfile
+
+// Close
 closefile

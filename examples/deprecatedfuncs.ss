@@ -1,17 +1,15 @@
 func printNN(n) {
-	write n * n
+	n: n * n
+	ret n
 }
 
-func printNTwice(n) {
+func printN(n) {
 	@USE printNN
-	
-	write n
-	write n
+	n: n + 2
+	ret n
 }
 
-i: 4.5
-i++
-printNTwice(i)
-
-i--
-printNTwice(i)
+i: rand (1, 10000)
+// Would return x, but instead now returns x*x
+write "Random number is "+i
+write printN(i) 

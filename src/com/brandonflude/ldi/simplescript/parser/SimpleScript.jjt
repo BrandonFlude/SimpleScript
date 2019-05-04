@@ -78,8 +78,10 @@ TOKEN [IGNORE_CASE] : /* RESERVED WORDS AND LITERALS */
 | < READFILE: "READFILE" >
 | < EDITFILE: "EDITFILE" >
 | < CLOSEFILE: "CLOSEFILE" >
+| < CLEARFILE: "CLEARFILE" >
 | < SORT: "SORT" >
 | < SIZEOF: "SIZEOF" >
+| < RAND: "RAND" >
 }
 
 TOKEN : /* LITERALS */
@@ -293,7 +295,12 @@ void sizeof() #SizeOf:
 {
 					<SIZEOF> expression() // Find out the size of an array
 }
-  
+
+void rand() #Rand:
+{}
+{
+					<RAND> [ "(" integer() "," integer() ")" { jjtThis.randHasParams = true; } ] // Get a random number
+} 
 
 void assignment() #Assignment :
 {}
@@ -311,6 +318,7 @@ void value_assignment () :
 	  					LOOKAHEAD(2) expression()
 	  				|   "[" expression() ( "," expression() )* "]"
 	  				|   sizeof() // Allow variables to be set to sizeof arrays
+	  				|   rand()  // Set a variable to a random number
 }
 
 void file_commands() :
@@ -321,6 +329,7 @@ void file_commands() :
 		  			| 		<READFILE> [ "[" integer() "]" {  jjtThis.readLineFromFile = true; } ] #ReadFile  // Specify the line from the file to read
 		  			|  		<EDITFILE> expression() #EditFile // Edit the file by adding the line of text written
 		  			| 		<CLOSEFILE> #CloseFile
+		  			| 		<CLEARFILE> #ClearFile
 }
 
 

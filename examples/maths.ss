@@ -29,7 +29,7 @@ if(a EQUAL TO 18.7)
 }
 else
 {
-  write("false")
+  write("a: false")
 }
 
 if(b EQUAL TO 6.1894)
@@ -38,7 +38,7 @@ if(b EQUAL TO 6.1894)
 }
 else
 {
-  write("false")
+  write("b: false")
 }
 
 if(c EQUAL TO 6.9)
@@ -47,7 +47,7 @@ if(c EQUAL TO 6.9)
 }
 else
 {
-  write("false")
+  write("c: false")
 }
 
 if(d EQUAL TO 8.333)
@@ -56,7 +56,7 @@ if(d EQUAL TO 8.333)
 }
 else
 {
-  write("false")
+  write("d: false")
 }
 
 if(e EQUAL TO 14)
@@ -65,7 +65,7 @@ if(e EQUAL TO 14)
 }
 else
 {
-  write("false")
+  write("e: false")
 }
 
 if(f EQUAL TO 0)
@@ -74,7 +74,7 @@ if(f EQUAL TO 0)
 }
 else
 {
-  write("false")
+  write("f: false")
 }
 
 if(g EQUAL TO 2.5)
@@ -83,7 +83,7 @@ if(g EQUAL TO 2.5)
 }
 else
 {
-  write("false")
+  write("g: false")
 }
 
 if(h EQUAL TO 1.1)
@@ -92,7 +92,7 @@ if(h EQUAL TO 1.1)
 }
 else
 {
-  write("false")
+  write("h: false")
 }
 
 if(i EQUAL TO 1)
@@ -101,7 +101,7 @@ if(i EQUAL TO 1)
 }
 else
 {
-  write("false")
+  write("i: false")
 }
 
 if(j EQUAL TO 1)
@@ -110,7 +110,7 @@ if(j EQUAL TO 1)
 }
 else
 {
-  write("false")
+  write("j: false")
 }
 
 
@@ -120,7 +120,7 @@ if(k EQUAL TO 25)
 }
 else
 {
-	write("false")
+	write("k: false")
 }
 
 if(l EQUAL TO 30.25)
@@ -129,7 +129,7 @@ if(l EQUAL TO 30.25)
 }
 else
 {
-	write("false")
+	write("l: false")
 }
 
 if(m EQUAL TO 5)
@@ -138,7 +138,7 @@ if(m EQUAL TO 5)
 }
 else
 {
-	write("false")
+	write("m: false")
 }
 
 if(n EQUAL TO 7.5)
@@ -147,7 +147,7 @@ if(n EQUAL TO 7.5)
 }
 else
 {
-	write("false")
+	write("n: false")
 }
 
 if(o EQUAL TO 2)
@@ -156,7 +156,7 @@ if(o EQUAL TO 2)
 }
 else
 {
-	write("false")
+	write("o: false")
 }
 
 if(p EQUAL TO 0.5)
@@ -165,5 +165,30 @@ if(p EQUAL TO 0.5)
 }
 else
 {
-	write("false")
+	write("p: false")
 }
+
+q: o
+q += 3 // 5 // Add 3
+if(q EQUAL TO 5.0)
+{
+	write("q: true")
+}
+else
+{
+	write("q: false")
+}
+
+r: o
+r -= 2 // 0 // Subtract 2
+if(r EQUAL TO 0)
+{
+	write("r: true")
+}
+else
+{
+	write("r: false")
+}
+
+
+

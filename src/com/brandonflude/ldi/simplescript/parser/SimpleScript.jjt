@@ -230,6 +230,8 @@ void statement() #Statement :
 				 	LOOKAHEAD(2) assignment()
 				|   LOOKAHEAD(2) plus_one_expression()
 				|   LOOKAHEAD(2) sub_one_expression()
+				|   LOOKAHEAD(3) plus_eq_expression()
+				|   LOOKAHEAD(3) sub_eq_expression()
 				|	fndef()
 				|	block()
 				|	ifstatement()	
@@ -240,7 +242,6 @@ void statement() #Statement :
 				|   exit()
 				|   file_commands()
 				|   sort()
-				|   sizeof()
 				
 }
 
@@ -316,7 +317,9 @@ void assignment() #Assignment :
 void value_assignment () :
 {}
 {
-	  					LOOKAHEAD(2) expression()
+  						LOOKAHEAD(3) plus_eq_expression()
+					|   LOOKAHEAD(3) sub_eq_expression()
+	  				| 	LOOKAHEAD(2) expression()
 	  				|   "[" expression() ( "," expression() )* "]"
 	  				|   sizeof() // Allow variables to be set to sizeof arrays
 	  				|   rand()  // Set a variable to a random number
@@ -442,6 +445,18 @@ void sub_one_expression() #Subtract1(1) :
 {}
 {
   								identifier() <MM> 
+}
+
+void plus_eq_expression() #PE(2) :
+{}
+{
+  								identifier() <PEQ> mul_expression() 
+}
+
+void sub_eq_expression() #ME(2) :
+{}
+{
+  								identifier() <MEQ> mul_expression() 
 }
 
 void mul_expression() : 

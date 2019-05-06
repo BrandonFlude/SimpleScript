@@ -510,8 +510,7 @@ public class Parser implements SimpleScriptVisitor {
 		return data;
 	}
 	
-	/*
-	public Object visit(ASTPE node, Object data) {
+	public Object visit(ASTPE node, Object data) {	
 		Display.Reference reference;
 		if (node.optimised == null) {
 			String name = getTokenOfChild(node, 0);
@@ -527,7 +526,8 @@ public class Parser implements SimpleScriptVisitor {
 			}
 		} else {
 			reference = (Display.Reference)node.optimised;
-		}		
+		}	
+	
 		reference.setValue(reference.getValue().add(doChild(node, 1)));
 		return data;
 	}
@@ -553,7 +553,6 @@ public class Parser implements SimpleScriptVisitor {
 		reference.setValue(reference.getValue().subtract(doChild(node, 1)));
 		return data;
 	}
-	*/
 	
 	// *
 	public Object visit(ASTTimes node, Object data) {

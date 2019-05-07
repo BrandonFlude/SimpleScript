@@ -349,7 +349,7 @@ public class Parser implements SimpleScriptVisitor {
 		Display.Reference reference;
 		Display.ArrayReference arrayReference = null;
 		boolean allow_set = false;
-		
+	
 		if (node.optimised == null) {
 			String name = getTokenOfChild(node, 0);
 			

@@ -49,7 +49,7 @@ class Display {
 		void setValue(Value v, int position) {
 			arrays[displayDepth].setValue(position, v);
 		}
-		
+				
 		/** Get value pointed to by this reference. */
 		Value getValue(int index) {
 			return arrays[displayDepth].getValue(index);
@@ -59,7 +59,7 @@ class Display {
 			return arrays[displayDepth].getSize(name);
 		}
 		
-		ArrayReference sort(String name) {
+		public ArrayReference sort(String name) {
 			arrays[displayDepth].sort(name);
 			// Return reference to this
 			return new ArrayReference(displayDepth);
@@ -152,6 +152,5 @@ class Display {
 	/** Add a function to the current level. */
 	void addFunction(FunctionDefinition definition) {
 		display[currentLevel].addFunction(definition);
-	}
-	
+	}	
 }

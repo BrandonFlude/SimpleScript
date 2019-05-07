@@ -1,47 +1,32 @@
-integerArray[]: [2, 1, 3, 4]
-stringArray[]: ["c", "b", "a", "d", "e"]
-mixedArray[]: ["cat", "box", "dog", 1, 3, 2]
+numbers[]: [10, 5, 7, 1003, 4, 1, 0, 5.5]
+names[]: ["John", "Dave", "Chris", "Wayne", "George", "Stanley", "Brandon", "Danny"]
 
-j: sizeof(integerArray)
-k: sizeof(stringArray)
-l: sizeof(mixedArray)
+j: sizeof(numbers)
+k: sizeof(names)
 
 write("Unsorted Arrays:")
 
 for(i: 0; i LESS THAN j; i++)
 {
-	 write(integerArray[i])
+	 write(numbers[i])
 }
 
 for(i: 0; i LESS THAN k; i++)
 {
-	write(stringArray[i])
+	write(names[i])
 }
-
-for(i: 0; i LESS THAN l; i++)
-{
-	write(mixedArray[i])
-}
-
 write("Sorted Arrays:")
 
-sort(integerArray)
+sort(numbers)
 
 for(i: 0; i LESS THAN j; i++)
 {
-	write(integerArray[i])
+	write(numbers[i])
 }
 
-sort(stringArray)
+sort(names)
 
 for(i: 0; i LESS THAN k; i++)
 {
-	write(stringArray[i])
-}
-
-sort(mixedArray)
-
-for(i: 0; i LESS THAN l; i++)
-{
-	write(mixedArray[i])
+	write(names[i])
 }

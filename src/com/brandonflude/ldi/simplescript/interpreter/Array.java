@@ -45,8 +45,8 @@ class Array {
 	}
 	
 	void sort(String name) {
-		// Sorted Integers
-		ArrayList<Integer> sortedIntegers = new ArrayList<Integer>();	
+		// Sorted Numbers
+		ArrayList<Integer> sortedNumbers = new ArrayList<Integer>();	
 		
 		// Sorted Strings
 		ArrayList<String> sortedStrings = new ArrayList<String>();
@@ -57,7 +57,13 @@ class Array {
 			if(values.get(i).getName() == "integer")
 			{
 				int temp = values.get(i).intValue();
-				sortedIntegers.add(temp);
+				sortedNumbers.add(temp);
+			}
+
+			if(values.get(i).getName() == "rational")
+			{
+				int temp = values.get(i).intValue();
+				sortedNumbers.add(temp);
 			}
 			
 			if(values.get(i).getName() == "string")
@@ -68,17 +74,17 @@ class Array {
 		}
 
 		// Sort the Java Array using Collections
-		Collections.sort(sortedIntegers);
+		Collections.sort(sortedNumbers);
 		Collections.sort(sortedStrings);
 		
 		int i = 0;
 		
 		// Overwrite the passed in Array (SS Array) with for loop
-		if(!sortedIntegers.isEmpty())
+		if(!sortedNumbers.isEmpty())
 		{
-			for(; i < sortedIntegers.size(); i++)
+			for(; i < sortedNumbers.size(); i++)
 			{	
-				Value k = new ValueInteger(sortedIntegers.get(i));
+				Value k = new ValueInteger(sortedNumbers.get(i));
 				setValue(i, k);
 			}
 		}

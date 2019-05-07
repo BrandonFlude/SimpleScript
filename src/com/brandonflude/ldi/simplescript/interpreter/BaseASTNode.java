@@ -29,6 +29,9 @@ public class BaseASTNode {
 	// Set an assignment to indicate whether it is an array or not
 	public boolean assignmentIsArray = false;
 	
+	// Set an assignment to be to a particular value in an array
+	public boolean assignmentToArray = false;
+	
 	// Set an assignment to indicate whether it is an constant or not
 	public boolean assignmentIsConst = false;
 	

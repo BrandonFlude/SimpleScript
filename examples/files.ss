@@ -1,6 +1,6 @@
 filename: "examples/test.txt"
 
-write("Test 1 (maybe edit this file before run if it's blank)")
+write("Test 1 (put some content in /examples.test.txt)")
 // Open, read and edit the file using var from the root
 openfile(filename)
 readfile

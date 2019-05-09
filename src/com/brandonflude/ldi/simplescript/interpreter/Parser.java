@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 
+import com.brandonflude.ldi.simplescript.interpreter.Display.Reference;
 import com.brandonflude.ldi.simplescript.parser.ast.*;
 import com.brandonflude.ldi.simplescript.values.*;
 
@@ -297,7 +298,6 @@ public class Parser implements SimpleScriptVisitor {
 				stringBuilder = stringBuilder + doChild(node, c);  
 			}	
 		}
-
 		System.out.println(stringBuilder);
 		return data;
 	}
@@ -329,8 +329,8 @@ public class Parser implements SimpleScriptVisitor {
 		Display.Reference reference;
 		Display.ArrayReference arrayReference = null;
 		boolean allow_set = false;
-	
-		if (node.optimised == null) {
+			
+		if (node.optimised == null || node.storeFromFile == true) {
 			String name = getTokenOfChild(node, 0);
 			
 			// Arrays are immutable in SimpleScript
@@ -367,7 +367,42 @@ public class Parser implements SimpleScriptVisitor {
 					reference = scope.defineVariable(name);
 				}
 				node.optimised = reference;
-			}	
+			}
+		
+			// Reference will already be set here, either const or norm
+			if(node.storeFromFile)
+			{	
+				int lineToRead = doChild(node, 1).intValue();
+				int i = 1;
+				
+				// Make sure fileReader is always open
+				try {
+					if(fileReader.ready() == false)
+					{
+						fileReader = openFile(fileName);
+					}
+				} catch (IOException e) {
+					throw new ExceptionSemantic("An error has occured.");
+				}
+				
+				// New case of bufferedReader to start from the start of file
+				bufferedReader = new BufferedReader(fileReader);				
+				try {
+					while((line = bufferedReader.readLine()) != null)
+					{
+						if(i == lineToRead)
+						{
+							Value v = toValue(line);
+		        			reference.setValue(v);
+						}
+						i++;
+					}
+				} catch(IOException ex) {
+					System.out.println(ex);
+				}
+				node.optimised = reference;				
+			}
+			
 		} else {
 			reference = (Display.Reference)node.optimised;
 		}
@@ -383,17 +418,26 @@ public class Parser implements SimpleScriptVisitor {
 					arrayReference.setValue(doChild(node, i), i - 1);
 				}
 			}
-			else
+			else if(node.storeFromFile == false)
 			{
-				// Case for setting constants on creation
+				// Case for setting just about everything else on creation
 				reference.setValue(doChild(node, 1));
-			}	
+			}
 		}
 		else
 		{
 			throw new ExceptionSemantic("You cannot modify a constant.");
 		}
 		return data;
+	}
+
+	private FileReader openFile(String fileName) {
+		try {
+            fileReader = new FileReader(fileName);
+		} catch(FileNotFoundException ex) {
+			throw new ExceptionSemantic("Unable to open file " + fileName);
+        }
+		return fileReader;
 	}
 
 	// OR
@@ -600,65 +644,56 @@ public class Parser implements SimpleScriptVisitor {
 	}
 	
 	public Object visit(ASTOpenFile node, Object data) {
-		Display.Reference reference;
 		if (node.optimised == null)
 		{
 			// Get variable name
-			String name = getTokenOfChild(node, 0);
-			reference = scope.findReference(name);
-			if(reference != null)
-			{
-				fileName = reference.getValue().toString();
-			}
-			else if(immutables.findReference(name) != null)
-			{
-				// Perhaps it's a constant
-				reference = immutables.findReference(name);
-				fileName = reference.getValue().toString();
-			}
-			else
-			{
-				// Treat this as a raw file name
-				fileName = doChild(node, 0).toString();
-			}
+			Value v = doChild(node, 0);
+			fileName = v.toString();
 		}
 	
 		// Open file using standard Java methods
-		try {
-            fileReader = new FileReader(fileName);
-		} catch(FileNotFoundException ex) {
-			throw new ExceptionSemantic("Unable to open file " + fileName);
-        }
+		fileReader = openFile(fileName);
 		
 		return node.optimised;
 	}
 	
-	public Object visit(ASTReadFile node, Object data) {
-		// Read contents of the file opened through OPEN keyword
-        bufferedReader = new BufferedReader(fileReader);
-        int i = 1;
-        
-        try {
-        	while((line = bufferedReader.readLine()) != null) {
-        		if(node.readLineFromFile == true)
-        		{
-        			// Defined here to stop 'null' when reading the whole file
-        			int lineToRead = Integer.parseInt(getTokenOfChild(node, 0));
-        			if(i == lineToRead)
-        			{
-        				System.out.println(line);
-        			}
-        			i++;
-        		}
-        		else
-        		{
-        			System.out.println(line);
-        		}   
-            }   
+	public Object visit(ASTReadFile node, Object data) { 
+		int i = 1;
+		
+        // Make sure fileReader is always open
+		try {
+			if(fileReader.ready() == false)
+			{
+				fileReader = openFile(fileName);
+			}
+		} catch (IOException e) {
+			throw new ExceptionSemantic("An error has occured.");
+		}
+		
+		// New case of bufferedReader to start from the start of file
+		bufferedReader = new BufferedReader(fileReader);
+		try {
+			while((line = bufferedReader.readLine()) != null)
+			{
+				if(node.readLineFromFile == true)
+				{
+					// Keep this var in here to ensure everything doesn't break
+			        int lineToRead = Integer.parseInt(getTokenOfChild(node, 0));
+			        
+					if(i == lineToRead)
+					{
+						System.out.println(line);
+					}
+				}
+				else
+				{
+					System.out.println(line);
+				}
+				i++;
+			}
 		} catch(IOException ex) {
-            throw new ExceptionSemantic("Unable to read a file. Did you OPEN it yet?");
-        }
-        
+			throw new ExceptionSemantic("Unable to read a file. Did you OPEN it yet?");
+		}
 		return node.optimised;
 	}
 	
@@ -692,6 +727,7 @@ public class Parser implements SimpleScriptVisitor {
             
             // Close the writer
             bufferedWriter.close();
+            fileWriter.close();
         }
         catch(IOException ex) {
         	throw new ExceptionSemantic("Unable to edit this file.");
@@ -705,6 +741,7 @@ public class Parser implements SimpleScriptVisitor {
 			fileReader.close();
         	bufferedReader.close();
         	fileName = "";
+        	line = "";
 		} catch(IOException ex) {
 			throw new ExceptionSemantic("Unable to close a file.");
         }
@@ -815,12 +852,11 @@ public class Parser implements SimpleScriptVisitor {
 		return node.optimised;
 	}
 		
-	public Object visit(ASTDictAdd node, Object data) {
+	public Object visit(ASTDictAdd node, Object data) {				
 		Display.DictReference dictReference;
 		String name = getTokenOfChild(node, 0);
 		String key = doChild(node, 1).toString();
-		Value value = doChild(node, 2);
-		
+		Value value = doChild(node, 2);		
 		dictReference = scope.findDictionary(name);
 		
 		if(dictReference != null)
@@ -860,5 +896,9 @@ public class Parser implements SimpleScriptVisitor {
 			throw new ExceptionSemantic("Dictionary " + name + " is undefined.");
 		}		
 		return data;
+	}
+	
+	private Value toValue(String s) {
+		return new ValueString(s);
 	}
 }

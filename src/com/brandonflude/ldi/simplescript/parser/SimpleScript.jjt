@@ -321,19 +321,22 @@ void assignment() #Assignment :
 					[ <CONST> { jjtThis.assignmentIsConst = true; } ]
 					identifier()
 					[ "[]" { jjtThis.assignmentIsArray = true; } ]
-					":" value_assignment() 
-}
-
-void value_assignment () :
-{}
-{
-  						LOOKAHEAD(3) plus_eq_expression()
+					":"
+					(						LOOKAHEAD(3) plus_eq_expression()
 					|   LOOKAHEAD(3) sub_eq_expression()
 	  				| 	LOOKAHEAD(2) expression()
 	  				|   "[" expression() ( "," expression() )* "]"
 	  				|   sizeof() // Allow variables to be set to sizeof arrays
 	  				|   rand()  // Set a variable to a random number
-	  				|   <INPUT> expression() #Input // The given variable should be input by the user ! WIP !
+	  				|  	[ <READFILE>  "[" expression() "]" { jjtThis.storeFromFile = true; } ]
+	  				|   input_expression() // The given variable should be input by the user ! WIP !
+					)
+}
+
+void input_expression() #Input :
+{}
+{
+					<INPUT> expression()
 }
 
 void dictionary_create() #DictCreate :
@@ -346,7 +349,7 @@ void file_commands() :
 {}
 {
 		  					<OPENFILE> "(" ( LOOKAHEAD(2) ( expression() #OpenFile ) | identifier() #OpenFile ) ")" 
-		  			| 		<READFILE> [ "[" integer() "]" {  jjtThis.readLineFromFile = true; } ] #ReadFile  // Specify the line from the file to read
+		  			| 		<READFILE> [ "[" expression() "]" {  jjtThis.readLineFromFile = true; } ] #ReadFile  // Specify the line from the file to read
 		  			|  		<EDITFILE> "(" expression() ")" #EditFile(1) // Edit the file by adding the line of text written in ""
 		  			| 		<CLOSEFILE> #CloseFile
 		  			| 		<CLEARFILE> #ClearFile

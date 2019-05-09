@@ -38,6 +38,9 @@ public class BaseASTNode {
 	// Set a write statement to indicate whether the value is from an array or dictionary
 	public boolean writeIsFromArray = false;
 	
+	// Boolean to set that the user would like to store the value of a readFile[x]
+	public boolean storeFromFile = false;
+	
 	// Set a readfile statement to only read one line
 	public boolean readLineFromFile = false;
 	

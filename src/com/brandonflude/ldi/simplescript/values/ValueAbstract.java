@@ -101,4 +101,8 @@ public abstract class ValueAbstract implements Value {
 	public Value lt(Value v) {
 		return new ValueBoolean(compare(v) < 0);
 	}
+	
+	public Value toValue(String s) {
+		return new ValueString(s);
+	}
 }

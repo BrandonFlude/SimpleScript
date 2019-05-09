@@ -1,6 +1,7 @@
 /ASTRational.java
 /ASTFnInvoke.java
 /ASTFnBody.java
+/ASTDictAdd.java
 /ASTCompNequal.java
 /ASTCompEqual.java
 /ASTParmlist.java
@@ -9,6 +10,7 @@
 /JJTSimpleScriptState.java
 /ASTSubtract.java
 /ASTDivide.java
+/ASTDictWrite.java
 /ASTEditFile.java
 /ASTIdentifier.java
 /ASTSizeOf.java
@@ -21,14 +23,17 @@
 /ASTClearFile.java
 /ASTCompLT.java
 /ASTFalse.java
+/ASTME.java
 /ASTRand.java
 /ASTBlock.java
+/ASTDictCreate.java
 /ASTAssignment.java
 /ASTAdd.java
 /SimpleScriptTreeConstants.java
 /ASTCode.java
 /ASTOpenFile.java
 /ASTCompGTE.java
+/ASTPE.java
 /ASTExit.java
 /ASTWrite.java
 /ASTSubtract1.java
@@ -60,8 +65,4 @@
 /ASTDereference.java
 /ASTFnDef.java
 /ASTIfStatement.java
-/ASTPE.java
-/ASTME.java
-/ASTDictAdd.java
-/ASTDictCreate.java
-/ASTDictWrite.java
+/ASTReadFromFile.java

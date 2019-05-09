@@ -1,12 +1,11 @@
 filename: "examples/test.txt"
 
 write("Test 1 (put some content in "+filename+")")
-// Open, read and edit the file using var from the root
+// Open, read and edit the file using var 
 openfile(filename)
 readfile
 editfile("This is some example text...")
 closefile
-
 
 write ("Test 2")
 // Reopen file using hardtyped name from a directory

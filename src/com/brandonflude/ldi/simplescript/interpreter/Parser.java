@@ -8,9 +8,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
-import java.util.Scanner;
 
-import com.brandonflude.ldi.simplescript.interpreter.Display.Reference;
 import com.brandonflude.ldi.simplescript.parser.ast.*;
 import com.brandonflude.ldi.simplescript.values.*;
 

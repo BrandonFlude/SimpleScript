@@ -1,6 +1,6 @@
 package com.brandonflude.ldi.simplescript.interpreter;
 
-import java.util.Vector;
+import java.util.HashMap;
 
 import com.brandonflude.ldi.simplescript.values.*;
 
@@ -8,34 +8,28 @@ import com.brandonflude.ldi.simplescript.values.*;
 class Dictionary {
 
 	private String dictionaryName;
-	private Vector<Value> values;
-	
-	private final void setSlot(int n, Value v) {
-		if (n >= values.size())
-			values.setSize(n + 1);
-		values.set(n, v);
-	}
-	
+	private HashMap<String, Value> values = new HashMap<String, Value>(100);
+		
 	/** Get name. */
 	String getName()
 	{
 		return dictionaryName;
 	}
 	
-	/** Ctor for user-defined function. */
+	/** Ctor for user-defined dictionary. */
 	Dictionary(String name) {
 		dictionaryName = name;
-		values = new Vector<Value>();
+		values = new HashMap<String, Value>();
 	}
 		
 	/** Given a slot number, set its value. */
-	void setValue(int slotNumber, Value value) {
-		setSlot(slotNumber, value);
+	void setValue(String key, Value value) {
+		values.put(key, value);
 	}
 
 	/** Get a variable or parameter value given a slot number. */
-	Value getValue(int slotNumber) {
-		return values.get(slotNumber);
+	Value getValue(String key) {
+		return values.get(key);
 	}	
 	
 	int getSize(String name) {

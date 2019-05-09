@@ -1,4 +1,4 @@
-numbers[]: [10, 5, 7, 1003, 4, 1, 0, 5.5]
+numbers[]: [10, 5, 7, 1003, 4, 1, 0]
 names[]: ["John", "Dave", "Chris", "Wayne", "George", "Stanley", "Brandon", "Danny"]
 
 j: sizeof(numbers)

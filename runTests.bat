@@ -10,6 +10,9 @@ java -classpath ./bin SimpleScript < examples/fib.ss
 echo "=== Sorting Arrays ==="
 java -classpath ./bin SimpleScript < examples/arrays.ss
 
+echo "=== Values from Dictionaries ==="
+java -classpath ./bin SimpleScript < examples/dictionaries.ss
+
 echo "=== Deprecated Functions ==="
 java -classpath ./bin SimpleScript < examples/deprecatedfuncs.ss
 

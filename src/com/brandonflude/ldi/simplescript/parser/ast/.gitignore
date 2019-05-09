@@ -62,3 +62,6 @@
 /ASTIfStatement.java
 /ASTPE.java
 /ASTME.java
+/ASTDictAdd.java
+/ASTDictCreate.java
+/ASTDictWrite.java

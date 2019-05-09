@@ -167,7 +167,9 @@ public class Parser implements SimpleScriptVisitor {
 			String fnname = getTokenOfChild(node, 0);
 			fndef = scope.findFunction(fnname);
 			if (fndef == null)
+			{
 				throw new ExceptionSemantic("Function " + fnname + " is undefined.");
+			}
 			// Save it for next time
 			node.optimised = fndef;
 		} else
@@ -366,7 +368,7 @@ public class Parser implements SimpleScriptVisitor {
 				}
 				node.optimised = arrayReference;
 			}
-			
+
 			if(node.assignmentIsConst) 
 			{
 				// Add this to a separate scope instead, perhaps one named constants
@@ -820,5 +822,66 @@ public class Parser implements SimpleScriptVisitor {
 		
 		// Return response
 		return response;
+	}
+	
+	public Object visit(ASTDictCreate node, Object data) {
+		Display.DictReference dictReference = null;
+		String name = getTokenOfChild(node, 0);
+		dictReference = scope.findDictionary(name);
+		if(dictReference == null)
+		{
+			// Create Dictionary
+			dictReference = scope.defineDictionary(name);
+		}
+		node.optimised = dictReference;
+		return node.optimised;
+	}
+		
+	public Object visit(ASTDictAdd node, Object data) {
+		Display.DictReference dictReference;
+		String name = getTokenOfChild(node, 0);
+		String key = doChild(node, 1).toString();
+		Value value = doChild(node, 2);
+		
+		dictReference = scope.findDictionary(name);
+		
+		if(dictReference != null)
+		{
+			dictReference.setValue(key, value);
+		}
+		else
+		{
+			throw new ExceptionSemantic("Dictionary " + name + " is undefined.");
+		}	
+		
+		node.optimised = dictReference;
+		return node.optimised;
+	}
+	
+	public Object visit(ASTDictWrite node, Object data) {
+		Display.Reference reference;
+		Display.DictReference dictReference;
+		String name = getTokenOfChild(node, 0);
+		Value keyToFind = doChild(node, 1);		 // doChild fails if it's a variable
+		Value value;
+			
+		dictReference = scope.findDictionary(name);
+		if(dictReference != null)
+		{
+			value = dictReference.getValue(keyToFind.toString());
+			if(value != null)
+			{
+				System.out.println(value);
+			}
+			else
+			{
+				throw new ExceptionSemantic("Dictionary " + name + " doesn't contain a value for key: " + keyToFind + ".");
+			}
+		}
+		else
+		{
+			throw new ExceptionSemantic("Dictionary " + name + " is undefined.");
+		}		
+		return data;
 	}
 }

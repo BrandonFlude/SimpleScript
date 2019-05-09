@@ -83,6 +83,7 @@ TOKEN [IGNORE_CASE] : /* RESERVED WORDS AND LITERALS */
 | < SIZEOF: "SIZEOF" >
 | < RAND: "RAND" >
 | < INPUT: "INPUT" >
+| < ADD: "ADD" >
 }
 
 TOKEN : /* LITERALS */
@@ -238,10 +239,14 @@ void statement() #Statement :
 				|	forloop()
 				|   whileloop()
 				|	write()
-				|	call()
-				|   exit()
+//				|	call() ! not in use for anything I do yet
+				|   LOOKAHEAD(2) exit()
 				|   file_commands()
 				|   sort()
+				|  	LOOKAHEAD(2) dictionary_create()
+				|   LOOKAHEAD(3) dictionary_write()
+				|   LOOKAHEAD(3) dictionary_add()
+				
 				
 }
 
@@ -286,22 +291,28 @@ void fnUse() :
 					identifier()
 }
 
-void sort() #Sort:
+void sort() #Sort :
 {}
 {
 					<SORT> "(" expression() ")" // Sort an array
 }
 
-void sizeof() #SizeOf:
+void sizeof() #SizeOf :
 {}
 {
 					<SIZEOF> "(" expression() ")" // Find out the size of an array
 }
 
-void rand() #Rand:
+void rand() #Rand :
 {}
 {
 					<RAND> [ "(" integer() "," integer() ")" { jjtThis.randHasParams = true; } ] // Get a random number
+}
+
+void dictionary_add() #DictAdd :
+{}
+{
+ 					identifier() "." <ADD> "(" expression() "," expression() ")" 
 }
 
 void assignment() #Assignment :
@@ -310,7 +321,6 @@ void assignment() #Assignment :
 					[ <CONST> { jjtThis.assignmentIsConst = true; } ]
 					identifier()
 					[ "[]" { jjtThis.assignmentIsArray = true; } ]
-					// Can have be followed by an expression or custom +=/-= expression
 					":" value_assignment() 
 }
 
@@ -323,7 +333,13 @@ void value_assignment () :
 	  				|   "[" expression() ( "," expression() )* "]"
 	  				|   sizeof() // Allow variables to be set to sizeof arrays
 	  				|   rand()  // Set a variable to a random number
-	  				|   <INPUT> expression() #Input // The given variable should be input by the user
+	  				|   <INPUT> expression() #Input // The given variable should be input by the user ! WIP !
+}
+
+void dictionary_create() #DictCreate :
+{}
+{
+							identifier() "()" // i.e CapitalCities()
 }
 
 void file_commands() :
@@ -372,12 +388,26 @@ void write() #Write :
 				| 	<WRITE> "(" expression() ( "+" expression() )* ")"
 }
 
+void dictionary_write() #DictWrite :
+{}
+{
+					expression() "." <WRITE> "(" dictKey() ")"
+}
+
 void arrayValue() :
 {}
 {
 							integer()
 					| 		identifier()
 }
+
+void dictKey() :
+{}
+{
+							character()
+					| 		identifier()
+}
+  
 
 void call() #Call :
 {}

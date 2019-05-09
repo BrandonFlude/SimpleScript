@@ -10,8 +10,10 @@ class Display {
 	private final int maximumFunctionNesting = 64;
 	private FunctionInvocation[] display = new FunctionInvocation[maximumFunctionNesting];
 	private Array[] arrays = new Array[128]; // Not entirely sure what this number is for
+	private Dictionary[] dictionaries = new Dictionary[128]; // Not entirely sure what this number is for
 	private int currentLevel;
 	private int arrayCounter = 0;
+	private int dictCounter = 0;
 
 	/** Reference to a slot. */
 	class Reference {
@@ -66,6 +68,25 @@ class Display {
 		}
 	}
 	
+	class DictReference {
+		private int displayDepth;
+		
+		/** Ctor */
+		public DictReference(int currentLevel) {
+			displayDepth = currentLevel;
+		}
+		
+		/** Set value pointed to by this reference. */
+		void setValue(String key, Value v) {
+			dictionaries[displayDepth].setValue(key, v);
+		}
+				
+		/** Get value pointed to by this reference. */
+		Value getValue(String key) {
+			return dictionaries[displayDepth].getValue(key);
+		}
+	}
+	
 	/** Ctor */
 	Display() {
 		// root or 0th scope
@@ -117,6 +138,20 @@ class Display {
 		}
 		return null;
 	}
+	
+	DictReference findDictionary(String name) {
+		int level = dictCounter;
+		while (level >=0) {
+			if (dictionaries[level] != null) {
+				String dictionaryName = dictionaries[level].getName();
+				if (dictionaryName.equals(name)) {
+					return new DictReference(level);
+				}
+			}
+			level--;
+		}
+		return null;
+	}
 
 	/** Create a variable in the current level and return its Reference. */
 	Reference defineVariable(String name) {
@@ -130,6 +165,14 @@ class Display {
 		// Ready it for the next array
 		arrayCounter++;
 		return arrayRef;
+	}
+	
+	DictReference defineDictionary(String name) {
+		dictionaries[dictCounter] = new Dictionary(name);
+		DictReference dictRef = new DictReference(dictCounter);
+		// Ready it for the next array
+		dictCounter++;
+		return dictRef;
 	}
 
 	/** Find a function.  Return null if it doesn't exist. */

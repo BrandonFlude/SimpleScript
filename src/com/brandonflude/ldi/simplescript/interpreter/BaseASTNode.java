@@ -35,7 +35,7 @@ public class BaseASTNode {
 	// Set an assignment to indicate whether it is an constant or not
 	public boolean assignmentIsConst = false;
 	
-	// Set a write statement to indicate whether the value is from an array
+	// Set a write statement to indicate whether the value is from an array or dictionary
 	public boolean writeIsFromArray = false;
 	
 	// Set a readfile statement to only read one line

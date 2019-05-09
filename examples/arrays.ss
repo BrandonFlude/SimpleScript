@@ -15,16 +15,16 @@ for(i: 0; i LESS THAN k; i++)
 {
 	write(names[i])
 }
-write("Sorted Arrays:")
 
+write("----------------")
+write("Sorted Arrays:")
 sort(numbers)
+sort(names)
 
 for(i: 0; i LESS THAN j; i++)
 {
 	write(numbers[i])
 }
-
-sort(names)
 
 for(i: 0; i LESS THAN k; i++)
 {

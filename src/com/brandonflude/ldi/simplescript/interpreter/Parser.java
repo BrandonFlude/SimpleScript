@@ -269,7 +269,6 @@ public class Parser implements SimpleScriptVisitor {
 	// Execute the WRITE statement
 	public Object visit(ASTWrite node, Object data) {
 		Display.ArrayReference arrayReference;
-		Display.Reference reference;
 		
 		// Find number of nodes
 		int numOfChildren = node.jjtGetNumChildren();
@@ -281,38 +280,17 @@ public class Parser implements SimpleScriptVisitor {
 			// Check whether the value is in [] or not, the node should be set as writeIsFromArray
 			if(node.writeIsFromArray == true)
 			{
-				int indexToFind;
 				String name = getTokenOfChild(node, 0);
-
+				Value v = doChild(node, 1);
 				if(immutables.findArray(name) != null)
 				{
 					arrayReference = immutables.findArray(name);
+					stringBuilder = arrayReference.getValue(v.intValue()).toString();
 				}
 				else
 				{
 					throw new ExceptionSemantic("Variable or parameter " + name + " is undefined.");
 				}
-				
-				// If it's a number, convert - else find the variable user is using.
-				if(getTokenOfChild(node, 1).matches("^[0-9]"))
-				{
-					indexToFind = Integer.parseInt(getTokenOfChild(node, 1));
-				}
-				else
-				{
-					String paramName = getTokenOfChild(node, 1);
-					reference = scope.findReference(paramName);	
-					if (reference == null) {
-						// Look in constants, and then throw an error
-						if(immutables.findReference(paramName) != null)
-						{	
-							throw new ExceptionSemantic("Variable or parameter " + paramName + " is undefined.");
-						}
-					}
-					indexToFind = reference.getValue().intValue();
-				}
-				
-				stringBuilder = arrayReference.getValue(indexToFind).toString();
 			}
 			else
 			{
@@ -858,11 +836,10 @@ public class Parser implements SimpleScriptVisitor {
 		return node.optimised;
 	}
 	
-	public Object visit(ASTDictWrite node, Object data) {
-		Display.Reference reference;
+	public Object visit(ASTDictWrite node, Object data) {		
 		Display.DictReference dictReference;
 		String name = getTokenOfChild(node, 0);
-		Value keyToFind = doChild(node, 1);		 // doChild fails if it's a variable
+		Value keyToFind = doChild(node, 1);		 // doChild fails if it's a variable, use getTokenOf
 		Value value;
 			
 		dictReference = scope.findDictionary(name);

@@ -384,30 +384,15 @@ void write() #Write :
 {}
 {
 
-					LOOKAHEAD(2) <WRITE> "(" expression() [ "[" arrayValue() "]" {jjtThis.writeIsFromArray = true;} ] ")"
+					LOOKAHEAD(2) <WRITE> "(" expression() [ "[" expression() "]" {jjtThis.writeIsFromArray = true;} ] ")"
 				| 	<WRITE> "(" expression() ( "+" expression() )* ")"
 }
 
 void dictionary_write() #DictWrite :
 {}
 {
-					expression() "." <WRITE> "(" dictKey() ")"
+					expression() "." <WRITE> "(" expression() ")"
 }
-
-void arrayValue() :
-{}
-{
-							integer()
-					| 		identifier()
-}
-
-void dictKey() :
-{}
-{
-							character()
-					| 		identifier()
-}
-  
 
 void call() #Call :
 {}

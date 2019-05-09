@@ -1,5 +1,6 @@
 // This example takes input from a text file and adds it to a dictionary directly.
 // From there, a user is able to select and print out the value of a key based on the file input
+// This example also highlights the use(<func>) option, to use a different function instead of the one called
 
 filename: "examples/realExample.txt"
 months<>

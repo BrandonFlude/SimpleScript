@@ -1,5 +1,5 @@
-capitalCities()
-trophies()
+capitalCities<>
+trophies<>
 
 capitalCities.add("England", "London")
 capitalCities.add("France", "Paris")

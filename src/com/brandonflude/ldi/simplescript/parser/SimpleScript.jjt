@@ -239,11 +239,11 @@ void statement() #Statement :
 				|	forloop()
 				|   whileloop()
 				|	write()
-//				|	call() ! not in use for anything I do yet
+				|	LOOKAHEAD(3) call()
 				|   LOOKAHEAD(2) exit()
 				|   file_commands()
 				|   sort()
-				|  	LOOKAHEAD(2) dictionary_create()
+				|  	LOOKAHEAD(3) dictionary_create()
 				|   LOOKAHEAD(3) dictionary_write()
 				|   LOOKAHEAD(3) dictionary_add()
 				
@@ -259,7 +259,9 @@ void block() #Block :
 void parmlist() #Parmlist :
 {}
 {
-					"(" [ identifier() ( "," identifier() )* ] ")"
+					(						  "(" [ identifier() ( "," identifier() )* ] ")"
+						| "()"
+					)
 }
 
 void fnbody() #FnBody :
@@ -335,7 +337,7 @@ void assignment() #Assignment :
 void dictionary_create() #DictCreate :
 {}
 {
-							identifier() "()" // i.e CapitalCities()
+							identifier() "<>" // i.e CapitalCities<>
 }
 
 void file_commands() :
@@ -399,7 +401,10 @@ void call() #Call :
 void arglist() #ArgList :
 {}
 {
-					"(" [ expression() ] ( "," expression() )* ")"
+  					(
+						  "(" [ expression() ( "," expression() )* ] ")"
+						| "()"
+					)
 }
 
 //

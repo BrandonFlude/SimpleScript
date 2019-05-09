@@ -53,7 +53,6 @@
 /SimpleScriptConstants.java
 /SimpleScript.jj
 /ASTTrue.java
-/ASTInput.java
 /ASTTimes.java
 /ASTUnaryMinus.java
 /ASTForLoop.java
@@ -65,4 +64,3 @@
 /ASTDereference.java
 /ASTFnDef.java
 /ASTIfStatement.java
-/ASTReadFromFile.java

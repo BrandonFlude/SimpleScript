@@ -823,22 +823,6 @@ public class Parser implements SimpleScriptVisitor {
 		return node.optimised;
 	}
 	
-	public Object visit(ASTInput node, Object data) {		
-		// First child should be the question
-		System.out.println(doChild(node, 0).toString());
-		
-		Scanner reader = new Scanner(System.in);
-		
-		// Read in response
-		String response = reader.next(); 
-		
-		// Close reader
-		reader.close();
-		
-		// Return response
-		return response;
-	}
-	
 	public Object visit(ASTDictCreate node, Object data) {
 		Display.DictReference dictReference = null;
 		String name = getTokenOfChild(node, 0);

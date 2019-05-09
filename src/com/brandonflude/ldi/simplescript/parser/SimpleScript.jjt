@@ -329,14 +329,7 @@ void assignment() #Assignment :
 	  				|   sizeof() // Allow variables to be set to sizeof arrays
 	  				|   rand()  // Set a variable to a random number
 	  				|  	[ <READFILE>  "[" expression() "]" { jjtThis.storeFromFile = true; } ]
-	  				|   input_expression() // The given variable should be input by the user ! WIP !
 					)
-}
-
-void input_expression() #Input :
-{}
-{
-					<INPUT> expression()
 }
 
 void dictionary_create() #DictCreate :

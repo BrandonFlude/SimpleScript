@@ -331,7 +331,17 @@ public class ParserDebugger implements SimpleScriptVisitor {
 		return data;
 	}
 	
+	public Object visit(ASTDictRemove node, Object data) {
+		dump(node, data);
+		return data;
+	}
+	
 	public Object visit(ASTDictWrite node, Object data) {
+		dump(node, data);
+		return data;
+	}
+	
+	public Object visit(ASTDictUpdate node, Object data) {
 		dump(node, data);
 		return data;
 	}

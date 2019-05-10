@@ -84,6 +84,8 @@ TOKEN [IGNORE_CASE] : /* RESERVED WORDS AND LITERALS */
 | < RAND: "RAND" >
 | < INPUT: "INPUT" >
 | < ADD: "ADD" >
+| < UPDATE: "UPDATE" >
+| < REMOVE: "REMOVE" >
 }
 
 TOKEN : /* LITERALS */
@@ -243,9 +245,7 @@ void statement() #Statement :
 				|   LOOKAHEAD(2) exit()
 				|   file_commands()
 				|   sort()
-				|  	LOOKAHEAD(3) dictionary_create()
-				|   LOOKAHEAD(3) dictionary_write()
-				|   LOOKAHEAD(3) dictionary_add()
+				|  	dictionary_commands()
 				
 				
 }
@@ -311,10 +311,44 @@ void rand() #Rand :
 					<RAND> [ "(" integer() "," integer() ")" { jjtThis.randHasParams = true; } ] // Get a random number
 }
 
+void dictionary_commands() :
+{}
+{
+					LOOKAHEAD(3) dictionary_create()
+				|   LOOKAHEAD(3) dictionary_write()
+				|   LOOKAHEAD(3) dictionary_add()
+				|   LOOKAHEAD(3) dictionary_remove()
+				|   LOOKAHEAD(3) dictionary_update()
+}
+
 void dictionary_add() #DictAdd :
 {}
 {
- 					identifier() "." <ADD> "(" expression() "," expression() ")" 
+ 						identifier() "." <ADD> "(" expression() "," expression() ")" 
+}
+
+void dictionary_remove() #DictRemove :
+{}
+{
+ 						identifier() "." <REMOVE> "(" expression() ")" 
+}
+
+void dictionary_update() #DictUpdate :
+{}
+{
+						identifier() "." <UPDATE> "(" expression() "," expression() ")"
+}
+
+void dictionary_create() #DictCreate :
+{}
+{
+						identifier() "<>" // i.e CapitalCities<>
+}
+
+void dictionary_write() #DictWrite :
+{}
+{
+					expression() "." <WRITE> "(" expression() ")"
 }
 
 void assignment() #Assignment :
@@ -326,18 +360,12 @@ void assignment() #Assignment :
 					":"
 					(						LOOKAHEAD(3) plus_eq_expression()
 					|   LOOKAHEAD(3) sub_eq_expression()
-	  				| 	LOOKAHEAD(2) expression()
+	  				| 	LOOKAHEAD(2) expression() [ "[" expression() "]" {jjtThis.storeFromArray = true;} ]  // kinda broken
 	  				|   "[" expression() ( "," expression() )* "]"
 	  				|   sizeof() // Allow variables to be set to sizeof arrays
 	  				|   rand()  // Set a variable to a random number
 	  				|  	[ <READFILE>  "[" expression() "]" { jjtThis.storeFromFile = true; } ]
 					)
-}
-
-void dictionary_create() #DictCreate :
-{}
-{
-							identifier() "<>" // i.e CapitalCities<>
 }
 
 void file_commands() :
@@ -383,13 +411,11 @@ void write() #Write :
 {
 
 					LOOKAHEAD(2) <WRITE> "(" expression() [ "[" expression() "]" {jjtThis.writeIsFromArray = true;} ] ")"
-				| 	<WRITE> "(" expression() ( "+" expression() )* ")"
-}
-
-void dictionary_write() #DictWrite :
-{}
-{
-					expression() "." <WRITE> "(" expression() ")"
+				| 	<WRITE> "(" expression() ( "+"
+					( 		LOOKAHEAD(3) expression() 
+						| [ LOOKAHEAD(3) expression() "[" expression() "]" {jjtThis.writeIsFromArray = true;} ] 
+					) )*
+					")"
 }
 
 void call() #Call :

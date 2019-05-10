@@ -64,3 +64,5 @@
 /ASTDereference.java
 /ASTFnDef.java
 /ASTIfStatement.java
+/ASTDictUpdate.java
+/ASTDictRemove.java

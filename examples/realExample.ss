@@ -2,8 +2,11 @@
 // From there, a user is able to select and print out the value of a key based on the file input
 // This example also highlights the use(<func>) option, to use a different function instead of the one called
 
-filename: "examples/realExample.txt"
+
+numbersOfMonths[]: [1,2,3,4,5,6,7,8,9,10,11,12]
 months<>
+numOfMonths: sizeof(numbersOfMonths)
+filename: "examples/realExample.txt"
 
 func populateDict()
 {
@@ -11,7 +14,7 @@ func populateDict()
 	openfile(filename)
 	
 	// Populate the dictionary
-	for(i: 1; i LESS THAN 13; i++)
+	for(i: 1; i LESS THAN OR EQUAL TO numOfMonths; i++)
 	{
 		key: i
 		value: readfile[i]
@@ -22,10 +25,11 @@ func populateDict()
 	closefile
 	
 	// Cycle through dictionary and print values
-	for(i: 1; i LESS THAN 13; i++)
-	{
-		write("For key: "+i)
-		months.write(i)
+	for(i: 1; i LESS THAN OR EQUAL TO numOfMonths; i++)
+	{	
+		write("Key: "+i)
+		//write("Key: "+numbersOfMonths[i - 1]) // not working right now
+		months.write(i) 
 	}
 }
 

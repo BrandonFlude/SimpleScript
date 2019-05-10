@@ -80,6 +80,10 @@ class Display {
 		void setValue(String key, Value v) {
 			dictionaries[displayDepth].setValue(key, v);
 		}
+		
+		void delValue(String key) {
+			dictionaries[displayDepth].delValue(key);
+		}
 				
 		/** Get value pointed to by this reference. */
 		Value getValue(String key) {

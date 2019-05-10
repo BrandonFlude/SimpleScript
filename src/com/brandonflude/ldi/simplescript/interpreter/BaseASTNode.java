@@ -3,6 +3,7 @@ package com.brandonflude.ldi.simplescript.interpreter;
 /** This is the base class for every AST node.  
  * 
  * @author dave
+ * Additions by brandon
  *
  */
 public class BaseASTNode {
@@ -46,4 +47,7 @@ public class BaseASTNode {
 	
 	// Option for setting a random number between 2 numbers
 	public boolean randHasParams = false;
+	
+	// Boolean to set that the user would like to store a value from an array as a variable
+	public boolean storeFromArray = false;
 }

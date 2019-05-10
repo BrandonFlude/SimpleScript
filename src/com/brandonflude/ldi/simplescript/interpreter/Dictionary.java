@@ -26,7 +26,11 @@ class Dictionary {
 	void setValue(String key, Value value) {
 		values.put(key, value);
 	}
-
+	
+	void delValue(String key) {
+		values.remove(key);
+	}
+	
 	/** Get a variable or parameter value given a slot number. */
 	Value getValue(String key) {
 		return values.get(key);

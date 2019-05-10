@@ -272,13 +272,13 @@ public class Parser implements SimpleScriptVisitor {
 		// Find number of nodes
 		int numOfChildren = node.jjtGetNumChildren();
 		String stringBuilder = "";
-				 
+		
 		// Loop through all the children, appending to a string as we go
 		for(int c = 0; c < numOfChildren; c++)
 		{
 			// Check whether the value is in [] or not, the node should be set as writeIsFromArray
 			if(node.writeIsFromArray == true)
-			{
+			{				
 				String name = getTokenOfChild(node, 0);
 				Value v = doChild(node, 1);
 				if(immutables.findArray(name) != null)
@@ -287,13 +287,13 @@ public class Parser implements SimpleScriptVisitor {
 					stringBuilder = arrayReference.getValue(v.intValue()).toString();
 				}
 				else
-				{
+				{	
 					throw new ExceptionSemantic("Variable or parameter " + name + " is undefined.");
 				}
 			}
 			else
 			{
-				stringBuilder = stringBuilder + doChild(node, c);  
+				stringBuilder = stringBuilder + doChild(node, c).toString();  
 			}	
 		}
 		System.out.println(stringBuilder);
@@ -314,7 +314,9 @@ public class Parser implements SimpleScriptVisitor {
 					reference = immutables.findReference(name);
 				}
 				else
+				{
 					throw new ExceptionSemantic("Variable or parameter " + name + " is undefined.");
+				}
 			}
 			node.optimised = reference;
 		} else
@@ -367,6 +369,13 @@ public class Parser implements SimpleScriptVisitor {
 				node.optimised = reference;
 			}
 		
+			// Reference will already be set here, either const or norm
+			if(node.storeFromArray)
+			{
+				int indexToRead = doChild(node, 1).intValue(); 
+				System.out.println("Index: " + indexToRead);
+			}
+			
 			// Reference will already be set here, either const or norm
 			if(node.storeFromFile)
 			{	
@@ -854,6 +863,26 @@ public class Parser implements SimpleScriptVisitor {
 		return node.optimised;
 	}
 	
+	public Object visit(ASTDictRemove node, Object data) {
+		Display.DictReference dictReference;
+		String name = getTokenOfChild(node, 0);
+		String key = doChild(node, 1).toString();
+		dictReference = scope.findDictionary(name);
+		
+		if(dictReference != null)
+		{
+			// Remove key
+			dictReference.delValue(key);
+		}
+		else
+		{
+			throw new ExceptionSemantic("Dictionary " + name + " is undefined.");
+		}	
+		
+		node.optimised = dictReference;
+		return node.optimised;
+	}
+	
 	public Object visit(ASTDictWrite node, Object data) {		
 		Display.DictReference dictReference;
 		String name = getTokenOfChild(node, 0);
@@ -878,6 +907,26 @@ public class Parser implements SimpleScriptVisitor {
 			throw new ExceptionSemantic("Dictionary " + name + " is undefined.");
 		}		
 		return data;
+	}
+	
+	public Object visit(ASTDictUpdate node, Object data) {
+		Display.DictReference dictReference;
+		String name = getTokenOfChild(node, 0);
+		String key = doChild(node, 1).toString();
+		Value value = doChild(node, 2);		
+		dictReference = scope.findDictionary(name);
+		
+		if(dictReference != null)
+		{
+			dictReference.setValue(key, value);
+		}
+		else
+		{
+			throw new ExceptionSemantic("Dictionary " + name + " is undefined.");
+		}	
+		
+		node.optimised = dictReference;
+		return node.optimised;
 	}
 	
 	private Value toValue(String s) {

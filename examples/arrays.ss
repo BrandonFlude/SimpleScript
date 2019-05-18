@@ -16,6 +16,7 @@ for(i: 0; i LESS THAN k; i++)
 	write(names[i])
 }
 
+
 write("----------------")
 write("Sorted Arrays:")
 sort(numbers)
@@ -30,3 +31,10 @@ for(i: 0; i LESS THAN k; i++)
 {
 	write(names[i])
 }
+
+write("----------------")
+write("Values From Arrays:")
+
+// And fetching a value from an array and storing as a variable
+const a: numbers[2]
+write(a)

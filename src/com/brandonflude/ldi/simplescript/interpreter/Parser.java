@@ -372,9 +372,20 @@ public class Parser implements SimpleScriptVisitor {
 			// Reference will already be set here, either const or norm
 			if(node.storeFromArray)
 			{
-				int indexToRead = doChild(node, 1).intValue(); 
-				System.out.println("Index: " + indexToRead);
+				String arrayName = getTokenOfChild(node, 1);
+				int indexToRead = doChild(node, 2).intValue(); 
+				
+				// Need to get the value from ArrayReference
+				if(immutables.findArray(arrayName) != null)
+				{
+					arrayReference = immutables.findArray(arrayName);
+					Value valueOfIndex = arrayReference.getValue(indexToRead);
+				
+					// Update the reference (whether const or norm)
+					reference.setValue(valueOfIndex);
+				}
 			}
+			node.optimised = reference;
 			
 			// Reference will already be set here, either const or norm
 			if(node.storeFromFile)
@@ -409,7 +420,6 @@ public class Parser implements SimpleScriptVisitor {
 				}
 				node.optimised = reference;				
 			}
-			
 		} else {
 			reference = (Display.Reference)node.optimised;
 		}
@@ -425,7 +435,7 @@ public class Parser implements SimpleScriptVisitor {
 					arrayReference.setValue(doChild(node, i), i - 1);
 				}
 			}
-			else if(node.storeFromFile == false)
+			else if(node.storeFromFile == false && node.storeFromArray == false)
 			{
 				// Case for setting just about everything else on creation
 				reference.setValue(doChild(node, 1));

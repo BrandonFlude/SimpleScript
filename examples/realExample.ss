@@ -36,7 +36,7 @@ func populateDict()
 
 func populateDictLongWay()
 {
-	use(populateDict) // Use new function from file instead, comment line to see this func instead
+	use(populateDict) // Use new function from file instead, comment line to see this func run instead
 	months.add(1, "January")
 	months.add(2, "February")
 	months.add(3, "March")
